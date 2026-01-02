@@ -3,136 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <title>VMK Fresh Sea Food</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{font-family:Arial;margin:0;background:#f4f6f9}
-header{background:#0b3c5d;color:#fff;padding:15px;text-align:center}
-.container{padding:15px}
-.card{background:#fff;border-radius:8px;padding:12px;margin-bottom:12px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1)}
-.row{display:flex;justify-content:space-between;align-items:center}
-.qty button{padding:5px 10px;border:none;background:#0b3c5d;color:#fff;border-radius:4px}
-.qty span{margin:0 8px;font-weight:bold}
-.cart{position:fixed;bottom:0;left:0;right:0;background:#fff;
-padding:12px;box-shadow:0 -2px 6px rgba(0,0,0,0.2)}
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f7fa; }
+header { background: #0b2c3d; color: #fff; text-align: center; padding: 20px; }
+header img { max-width: 140px; }
+h1 { margin: 10px 0 5px; }
+.tagline { font-size: 14px; opacity: 0.9; }
+
+.section { padding: 20px; }
+.category { margin-bottom: 30px; }
+.category h2 { border-bottom: 2px solid #0b2c3d; padding-bottom: 5px; }
+
+.products { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; }
+.product {
+  background: #fff; border-radius: 8px; padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center;
+}
+.product img { width: 100%; height: 120px; object-fit: cover; border-radius: 6px; }
+.product h3 { font-size: 14px; margin: 8px 0; }
+.product p { margin: 5px 0; font-weight: bold; }
+
+.controls button {
+  padding: 4px 10px; font-size: 16px; margin: 0 5px;
+}
+
+.cart {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #0b2c3d; color: #fff; padding: 15px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cart button {
+  background: #25D366; border: none; color: #fff;
+  padding: 10px 16px; font-size: 16px; border-radius: 5px;
+}
+.note { font-size: 12px; text-align: center; margin-top: 10px; }
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>VMK Fresh Sea Food</h1>
-<p>Fresh Fish • Crab • Prawns</p>
+  <img src="logo.png" alt="VMK Fresh Sea Food Logo">
+  <h1>VMK Fresh Sea Food</h1>
+  <div class="tagline">
+    Fresh Fish • Live Crab • Premium Prawns – Delivery & Pickup Available
+  </div>
 </header>
 
-<div class="container">
+<div class="section">
 
-<h2>🐟 Fish</h2>
-<div class="card row">
-<div>White Pomfret (₹800/kg)</div>
-<div class="qty">
-<button onclick="change('White Pomfret',800,-1)">-</button>
-<span id="White Pomfret">0</span>
-<button onclick="change('White Pomfret',800,1)">+</button>
-</div>
-</div>
+  <!-- FISH -->
+  <div class="category">
+    <h2>Fish</h2>
+    <div class="products">
+      <div class="product" data-name="White Pomfret" data-price="800">
+        <img src="images/white-pomfret.jpg">
+        <h3>White Pomfret</h3><p>₹800/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
 
-<div class="card row">
-<div>Black Pomfret (₹700/kg)</div>
-<div class="qty">
-<button onclick="change('Black Pomfret',700,-1)">-</button>
-<span id="Black Pomfret">0</span>
-<button onclick="change('Black Pomfret',700,1)">+</button>
-</div>
-</div>
+      <div class="product" data-name="Black Pomfret" data-price="600">
+        <img src="images/black-pomfret.jpg">
+        <h3>Black Pomfret</h3><p>₹600/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
 
-<div class="card row">
-<div>Vanjaram (₹900/kg)</div>
-<div class="qty">
-<button onclick="change('Vanjaram',900,-1)">-</button>
-<span id="Vanjaram">0</span>
-<button onclick="change('Vanjaram',900,1)">+</button>
-</div>
-</div>
+      <div class="product" data-name="Vanjaram" data-price="900">
+        <img src="images/vanjaram.jpg">
+        <h3>Vanjaram</h3><p>₹900/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
 
-<h2>🦀 Crab</h2>
-<div class="card row">
-<div>Mud Crab (₹850/kg)</div>
-<div class="qty">
-<button onclick="change('Mud Crab',850,-1)">-</button>
-<span id="Mud Crab">0</span>
-<button onclick="change('Mud Crab',850,1)">+</button>
-</div>
-</div>
+      <div class="product" data-name="Mullet (Memalu)" data-price="400">
+        <img src="images/mullet.jpg">
+        <h3>Mullet (Memalu)</h3><p>₹400/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
 
-<div class="card row">
-<div>Blue Crab (₹600/kg)</div>
-<div class="qty">
-<button onclick="change('Blue Crab',600,-1)">-</button>
-<span id="Blue Crab">0</span>
-<button onclick="change('Blue Crab',600,1)">+</button>
-</div>
-</div>
+      <div class="product" data-name="Indian Mackerel (Kanagantha)" data-price="350">
+        <img src="images/mackerel.jpg">
+        <h3>Indian Mackerel</h3><p>₹350/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
 
-<h2>🦐 Prawns</h2>
-<div class="card row">
-<div>Tiger Prawns (₹950/kg)</div>
-<div class="qty">
-<button onclick="change('Tiger Prawns',950,-1)">-</button>
-<span id="Tiger Prawns">0</span>
-<button onclick="change('Tiger Prawns',950,1)">+</button>
-</div>
-</div>
+      <div class="product" data-name="Tuna Fish" data-price="500">
+        <img src="images/tuna.jpg">
+        <h3>Tuna Fish</h3><p>₹500/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="card row">
-<div>Vannamei Prawns (₹750/kg)</div>
-<div class="qty">
-<button onclick="change('Vannamei Prawns',750,-1)">-</button>
-<span id="Vannamei Prawns">0</span>
-<button onclick="change('Vannamei Prawns',750,1)">+</button>
-</div>
-</div>
+  <!-- CRAB -->
+  <div class="category">
+    <h2>Crab</h2>
+    <div class="products">
+      <div class="product" data-name="Mud Crab" data-price="1200">
+        <img src="images/mud-crab.jpg">
+        <h3>Mud Crab</h3><p>₹1200/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
 
+      <div class="product" data-name="Blue Crab" data-price="700">
+        <img src="images/blue-crab.jpg">
+        <h3>Blue Crab</h3><p>₹700/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
+
+      <div class="product" data-name="Macchala Crab" data-price="850">
+        <img src="images/macchala-crab.jpg">
+        <h3>Macchala Crab</h3><p>₹850/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRAWNS -->
+  <div class="category">
+    <h2>Prawns</h2>
+    <div class="products">
+      <div class="product" data-name="Tiger Prawns" data-price="1100">
+        <img src="images/tiger-prawns.jpg">
+        <h3>Tiger Prawns</h3><p>₹1100/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
+
+      <div class="product" data-name="Vannamei Prawns" data-price="650">
+        <img src="images/vannamei-prawns.jpg">
+        <h3>Vannamei Prawns</h3><p>₹650/kg</p>
+        <div class="controls">
+          <button onclick="add(this)">+</button>
+          <button onclick="remove(this)">−</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    Delivery & Pickup Available • Order via WhatsApp
+  </div>
 </div>
 
 <div class="cart">
-<span id="summary">0 items | ₹0</span>
-<button style="float:right" onclick="buy()">Buy Now (WhatsApp)</button>
+  <div>Total: ₹<span id="total">0</span></div>
+  <button onclick="buyNow()">Buy Now</button>
 </div>
 
 <script>
-let cart={}, totalItems=0, totalAmount=0;
-let priceMap={
-"White Pomfret":800,
-"Black Pomfret":700,
-"Vanjaram":900,
-"Mud Crab":850,
-"Blue Crab":600,
-"Tiger Prawns":950,
-"Vannamei Prawns":750
-};
+let total = 0;
+let items = [];
 
-function change(name,price,val){
-if(!cart[name]) cart[name]=0;
-cart[name]+=val;
-if(cart[name]<0) cart[name]=0;
-document.getElementById(name).innerText=cart[name];
-
-totalItems=0; totalAmount=0;
-for(let i in cart){
-totalItems+=cart[i];
-totalAmount+=cart[i]*priceMap[i];
-}
-document.getElementById('summary').innerText=
-totalItems+" items | ₹"+totalAmount;
+function add(btn) {
+  const p = btn.closest('.product');
+  const price = parseInt(p.dataset.price);
+  const name = p.dataset.name;
+  total += price;
+  items.push(name);
+  document.getElementById('total').innerText = total;
 }
 
-function buy(){
-let msg="Hello VMK Fresh Sea Food,%0AOrder Details:%0A";
-for(let i in cart){
-if(cart[i]>0) msg+=i+" : "+cart[i]+" kg%0A";
+function remove(btn) {
+  const p = btn.closest('.product');
+  const price = parseInt(p.dataset.price);
+  const name = p.dataset.name;
+  const index = items.indexOf(name);
+  if (index > -1) {
+    items.splice(index, 1);
+    total -= price;
+    document.getElementById('total').innerText = total;
+  }
 }
-msg+="Total Amount: ₹"+totalAmount;
-window.open("https://wa.me/918688918266?text="+msg);
+
+function buyNow() {
+  if (items.length === 0) {
+    alert("Please add items to cart");
+    return;
+  }
+  const msg =
+    "Order from VMK Fresh Sea Food%0A" +
+    "Items: " + items.join(", ") + "%0A" +
+    "Total: ₹" + total + "%0A" +
+    "Delivery / Pickup?";
+  window.open(
+    "https://wa.me/918688918266?text=" + msg,
+    "_blank"
+  );
 }
 </script>
 
