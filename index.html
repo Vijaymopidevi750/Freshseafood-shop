@@ -5,54 +5,191 @@
 <title>MVK Sea Foods</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{margin:0;font-family:Arial;background:#f2f4f7}
-header{background:#0b2c3d;color:#fff;text-align:center;padding:14px}
-.logo{width:90px;height:90px;border-radius:50%;border:3px solid gold}
-.section{padding:10px;padding-bottom:280px}
-h2{border-bottom:2px solid #0b2c3d}
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-/* PRODUCTS */
-.products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.product{background:#fff;border-radius:12px;padding:8px;text-align:center}
-.product.out{opacity:.45;pointer-events:none}
-.product img{width:100%;aspect-ratio:1/1;object-fit:contain}
-.price{font-weight:bold}
-.telugu{font-size:12px;color:#555}
-.controls button{width:44%;height:36px;font-size:20px}
+<style>
+:root{
+  --primary:#0b2c3d;
+  --accent:#25D366;
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --gold:#d4af37;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+  background:var(--bg);
+  color:#222;
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#0b2c3d,#123f55);
+  color:#fff;
+  text-align:center;
+  padding:22px 14px 26px;
+}
+.logo{
+  width:92px;
+  height:92px;
+  border-radius:50%;
+  border:3px solid var(--gold);
+  background:#fff;
+}
+header h1{
+  margin:10px 0 4px;
+  font-size:24px;
+  font-weight:600;
+}
+header p{
+  margin:0;
+  font-size:13px;
+  opacity:.9;
+}
+
+/* PAGE */
+.section{
+  padding:14px;
+  padding-bottom:170px;
+}
+
+/* GRID */
+.products{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+/* PRODUCT CARD */
+.product{
+  background:var(--card);
+  border-radius:16px;
+  padding:10px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  text-align:center;
+  transition:.2s;
+}
+.product img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:contain;
+  border-radius:12px;
+  background:#fff;
+}
+.product h4{
+  margin:8px 0 2px;
+  font-size:15px;
+}
+.telugu{
+  font-size:12px;
+  color:#666;
+}
+.price{
+  margin:6px 0;
+  font-weight:600;
+}
+
+/* CONTROLS */
+.controls{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:6px;
+}
+.controls button{
+  flex:1;
+  height:38px;
+  font-size:20px;
+  border:none;
+  border-radius:10px;
+  background:var(--primary);
+  color:#fff;
+}
+
+/* OUT OF STOCK */
+.product.out{
+  opacity:.45;
+  pointer-events:none;
+  position:relative;
+}
+.product.out::after{
+  content:"OUT OF STOCK";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  color:#b00;
+  background:rgba(255,255,255,.7);
+  border-radius:16px;
+}
 
 /* CART */
 .cart{
-  position:fixed;bottom:0;left:0;right:0;
-  background:#fff;padding:10px;
-  display:flex;justify-content:space-between;
-  box-shadow:0 -2px 10px rgba(0,0,0,.2)
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  box-shadow:0 -4px 20px rgba(0,0,0,.15);
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 .cart button{
-  background:#25D366;color:#fff;border:none;
-  padding:10px 16px;border-radius:6px;font-size:16px
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  padding:12px 18px;
+  font-size:16px;
+  border-radius:10px;
 }
 
 /* ADMIN */
 .admin{
-  background:#fff;margin:10px;border-radius:12px;padding:10px
+  display:none;
+  background:#fff;
+  margin:14px;
+  padding:14px;
+  border-radius:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.1);
 }
 .admin-row{
-  display:grid;grid-template-columns:1fr 70px 100px;
-  gap:6px;margin-bottom:6px;align-items:center
+  display:grid;
+  grid-template-columns:1fr 80px 100px;
+  gap:8px;
+  margin-bottom:8px;
 }
-.admin-row input{width:70px}
 
 /* THANK YOU */
 .thankyou{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.6);z-index:9999
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:9999;
 }
 .thankyou-box{
-  background:#fff;padding:20px;border-radius:12px;
-  text-align:center;width:85%;max-width:360px;
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%)
+  background:#fff;
+  padding:22px;
+  border-radius:18px;
+  text-align:center;
+  width:86%;
+  max-width:360px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+.thankyou-box h3{
+  margin-top:0;
+  color:var(--primary);
 }
 </style>
 </head>
@@ -60,21 +197,20 @@ h2{border-bottom:2px solid #0b2c3d}
 <body>
 
 <header>
-<img src="mvk-logo.png" class="logo">
-<h2>MVK Sea Foods</h2>
+<img src="mvk-logo.png" class="logo" id="logo">
+<h1>MVK Sea Foods</h1>
 <p>Fresh Fish • Live Crab • Premium Prawns</p>
 <p class="telugu">తాజా చేపలు • లైవ్ పీతలు • ప్రీమియం రొయ్యలు</p>
 </header>
 
 <!-- ADMIN PANEL -->
-<div class="admin">
+<div class="admin" id="adminPanel">
 <h3>🔐 Admin Panel</h3>
-<p class="telugu">ధరలు మార్చండి / స్టాక్ ఆన్–ఆఫ్ చేయండి</p>
 <div id="adminList"></div>
+<button onclick="downloadInvoice()">📄 Download PDF Invoice</button>
 </div>
 
 <div class="section">
-<h2>🛒 Products / ఉత్పత్తులు</h2>
 <div class="products" id="productList"></div>
 </div>
 
@@ -83,121 +219,133 @@ h2{border-bottom:2px solid #0b2c3d}
 <button onclick="orderNow()">WhatsApp Order</button>
 </div>
 
-<!-- THANK YOU POPUP -->
+<!-- THANK YOU -->
 <div id="thankyou" class="thankyou">
 <div class="thankyou-box">
 <h3>🙏 Thanks for ordering!</h3>
-<p class="telugu">మీ ఆర్డర్‌కు ధన్యవాదాలు 🙏</p>
-<p>Order ID: <b id="orderIdText"></b></p>
+<p>Order ID: <b id="oid"></b></p>
 <p><b>Delivery within 1 hour</b></p>
 <p class="telugu"><b>మీ ఆర్డర్ 1 గంటలో అందుతుంది</b></p>
-<p style="font-size:13px;color:#555">
-10 సెకన్లలో WhatsApp కు మారుతుంది…
-</p>
+<p style="font-size:13px;color:#555">10 సెకన్లలో WhatsApp కు మారుతుంది…</p>
 </div>
 </div>
 
 <script>
+const ADMIN_PASSWORD="MVK@123";
+
 const items=[
-{n:"White Pomfret",t:"వెండి పాంప్‌రెట్",p:800,img:"white-pomfret.jpg"},
-{n:"Black Pomfret",t:"బ్లాక్ పాంప్‌రెట్",p:700,img:"black-pomfret.jpg"},
-{n:"Vanjaram",t:"వంజరం చేప",p:900,img:"vanjaram.jpg"},
-{n:"Tuna",t:"ట్యూనా చేప",p:600,img:"tuna.jpg"},
-{n:"Mud Crab",t:"మట్టి పీత",p:1200,img:"mud-crab.jpg"},
-{n:"Blue Crab",t:"నీలి పీత",p:900,img:"blue-crab.jpg"},
-{n:"Tiger Prawns",t:"టైగర్ రొయ్యలు",p:1100,img:"tiger-prawns.jpg"},
-{n:"Vannamei Prawns",t:"వనామీ రొయ్యలు",p:850,img:"vannamei-prawns.jpg"}
+{name:"White Pomfret",tel:"వెండి పాంప్‌రెట్",price:800,img:"white-pomfret.jpg"},
+{name:"Black Pomfret",tel:"బ్లాక్ పాంప్‌రెట్",price:700,img:"black-pomfret.jpg"},
+{name:"Vanjaram",tel:"వంజరం చేప",price:900,img:"vanjaram.jpg"},
+{name:"Tuna",tel:"ట్యూనా చేప",price:600,img:"tuna.jpg"},
+{name:"Mud Crab",tel:"మట్టి పీత",price:1200,img:"mud-crab.jpg"},
+{name:"Blue Crab",tel:"నీలి పీత",price:900,img:"blue-crab.jpg"},
+{name:"Tiger Prawns",tel:"టైగర్ రొయ్యలు",price:1100,img:"tiger-prawns.jpg"},
+{name:"Vannamei Prawns",tel:"వనామీ రొయ్యలు",price:850,img:"vannamei-prawns.jpg"}
 ];
 
-let prices={},cart={},stock={},total=0;
+let prices={},cart={},stock={},orderId="",tap=0;
 
 items.forEach(i=>{
-prices[i.n]=i.p;
-stock[i.n]=true;
+prices[i.name]=i.price;
+stock[i.name]=true;
 });
 
-/* ADMIN UI */
-const admin=document.getElementById("adminList");
-items.forEach(i=>{
-admin.innerHTML+=`
-<div class="admin-row">
-<b>${i.n}<br><span class="telugu">${i.t}</span></b>
-<input type="number" value="${i.p}" onchange="updatePrice('${i.n}',this.value)">
-<button onclick="toggleStock('${i.n}')">Stock ON/OFF</button>
-</div>`;
-});
-
-/* PRODUCT UI */
+/* PRODUCTS */
 const list=document.getElementById("productList");
 items.forEach(i=>{
 list.innerHTML+=`
-<div class="product" id="p-${i.n}">
+<div class="product" id="p-${i.name}">
 <img src="images/${i.img}">
-<h4>${i.n}</h4>
-<div class="telugu">${i.t}</div>
-<div class="price">₹<span id="price-${i.n}">${i.p}</span> / kg</div>
-<div id="qty-${i.n}">0 kg</div>
-<button onclick="changeQty('${i.n}',1)">+</button>
-<button onclick="changeQty('${i.n}',-1)">−</button>
+<h4>${i.name}</h4>
+<div class="telugu">${i.tel}</div>
+<div class="price">₹<span id="price-${i.name}">${i.price}</span> / kg</div>
+<div id="qty-${i.name}">0 kg</div>
+<div class="controls">
+<button onclick="qty('${i.name}',-1)">−</button>
+<button onclick="qty('${i.name}',1)">+</button>
+</div>
 </div>`;
 });
 
-function changeQty(item,d){
+/* ADMIN */
+const adminList=document.getElementById("adminList");
+items.forEach(i=>{
+adminList.innerHTML+=`
+<div class="admin-row">
+<b>${i.name}</b>
+<input type="number" value="${i.price}" onchange="updatePrice('${i.name}',this.value)">
+<button onclick="toggleStock('${i.name}')">Stock</button>
+</div>`;
+});
+
+/* LOGIC */
+function qty(item,d){
 if(!stock[item])return;
 cart[item]=(cart[item]||0)+d;
 if(cart[item]<0)cart[item]=0;
 document.getElementById("qty-"+item).innerText=cart[item]+" kg";
-calculateTotal();
+calc();
+}
+function calc(){
+let t=0;
+for(let i in cart)t+=cart[i]*prices[i];
+document.getElementById("total").innerText=t;
+}
+function toggleStock(i){
+stock[i]=!stock[i];
+document.getElementById("p-"+i).classList.toggle("out");
+}
+function updatePrice(i,v){
+prices[i]=Number(v);
+document.getElementById("price-"+i).innerText=v;
+calc();
 }
 
-function calculateTotal(){
-total=0;
-for(let i in cart) total+=cart[i]*prices[i];
-document.getElementById("total").innerText=total;
-}
-
-function toggleStock(item){
-stock[item]=!stock[item];
-document.getElementById("p-"+item).classList.toggle("out");
-}
-
-function updatePrice(item,val){
-prices[item]=Number(val);
-document.getElementById("price-"+item).innerText=val;
-calculateTotal();
-}
-
+/* ORDER */
 function orderNow(){
-if(total===0){
-alert("దయచేసి ఉత్పత్తులు ఎంచుకోండి");
-return;
-}
-
-/* ORDER ID – GUARANTEED */
-const orderId =
-"MVK-" +
-new Date().toISOString().slice(0,10).replace(/-/g,"") +
-"-" +
-Math.floor(1000 + Math.random()*9000);
-
-/* SHOW ORDER ID */
-document.getElementById("orderIdText").innerText=orderId;
+let total=document.getElementById("total").innerText;
+if(total==0)return alert("దయచేసి ఉత్పత్తులు ఎంచుకోండి");
+orderId="MVK-"+Date.now();
+document.getElementById("oid").innerText=orderId;
 document.getElementById("thankyou").style.display="block";
 
-/* BUILD WHATSAPP MESSAGE */
-let msg="MVK Sea Foods Order%0AOrder ID: "+orderId+"%0A%0A";
-for(let i in cart){
-if(cart[i]>0){
-msg+=i+" - "+cart[i]+" kg × ₹"+prices[i]+" = ₹"+(cart[i]*prices[i])+"%0A";
-}
-}
-msg+="%0ATotal: ₹"+total+
-"%0ADelivery within 1 hour / 1 గంటలో";
+let msg="Order ID: "+orderId+"%0A";
+for(let i in cart)if(cart[i]>0)msg+=i+" - "+cart[i]+" kg%0A";
+msg+="Total ₹"+total+"%0ADelivery within 1 hour";
 
-/* REDIRECT AFTER 10 SECONDS */
 setTimeout(()=>{
 window.location.href="https://wa.me/918688918266?text="+msg;
 },10000);
+}
+
+/* ADMIN ACCESS */
+document.getElementById("logo").onclick=()=>{
+tap++;
+if(tap===5){
+let p=prompt("Enter Admin Password");
+if(p===ADMIN_PASSWORD){
+document.getElementById("adminPanel").style.display="block";
+}else alert("Wrong password");
+tap=0;
+}
+};
+
+/* PDF */
+function downloadInvoice(){
+const {jsPDF}=window.jspdf;
+const pdf=new jsPDF();
+pdf.text("MVK Sea Foods Invoice",20,20);
+pdf.text("Order ID: "+orderId,20,30);
+let y=40;
+for(let i in cart){
+if(cart[i]>0){
+pdf.text(`${i} - ${cart[i]} kg × ₹${prices[i]} = ₹${cart[i]*prices[i]}`,20,y);
+y+=10;
+}
+}
+pdf.text("Total: ₹"+document.getElementById("total").innerText,20,y+10);
+pdf.save(orderId+".pdf");
 }
 </script>
 
