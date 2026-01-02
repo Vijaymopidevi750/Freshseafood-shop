@@ -85,11 +85,21 @@ h1 {
 }
 
 /* CONTROLS */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
 .controls button {
-  padding: 6px 14px;
+  padding: 4px 12px;
   font-size: 18px;
-  margin: 0 6px;
   cursor: pointer;
+}
+.qty {
+  font-size: 16px;
+  font-weight: bold;
 }
 
 /* CART */
@@ -144,8 +154,9 @@ h1 {
   <div class="telugu">వెండి పాంప్‌రెట్ చేప</div>
   <p>₹800 / kg</p>
   <div class="controls">
-    <button onclick="addItem('White Pomfret')">+</button>
-    <button onclick="removeItem('White Pomfret')">−</button>
+    <button onclick="changeQty('White Pomfret', -1)">−</button>
+    <span class="qty" id="qty-White Pomfret">0 kg</span>
+    <button onclick="changeQty('White Pomfret', 1)">+</button>
   </div>
 </div>
 
@@ -155,8 +166,9 @@ h1 {
   <div class="telugu">వంజరం చేప</div>
   <p>₹900 / kg</p>
   <div class="controls">
-    <button onclick="addItem('Vanjaram')">+</button>
-    <button onclick="removeItem('Vanjaram')">−</button>
+    <button onclick="changeQty('Vanjaram', -1)">−</button>
+    <span class="qty" id="qty-Vanjaram">0 kg</span>
+    <button onclick="changeQty('Vanjaram', 1)">+</button>
   </div>
 </div>
 
@@ -174,8 +186,9 @@ h1 {
   <div class="telugu">లైవ్ మట్టి పీత</div>
   <p>₹1200 / kg</p>
   <div class="controls">
-    <button onclick="addItem('Mud Crab')">+</button>
-    <button onclick="removeItem('Mud Crab')">−</button>
+    <button onclick="changeQty('Mud Crab', -1)">−</button>
+    <span class="qty" id="qty-Mud Crab">0 kg</span>
+    <button onclick="changeQty('Mud Crab', 1)">+</button>
   </div>
 </div>
 
@@ -193,8 +206,9 @@ h1 {
   <div class="telugu">టైగర్ రొయ్యలు</div>
   <p>₹1100 / kg</p>
   <div class="controls">
-    <button onclick="addItem('Tiger Prawns')">+</button>
-    <button onclick="removeItem('Tiger Prawns')">−</button>
+    <button onclick="changeQty('Tiger Prawns', -1)">−</button>
+    <span class="qty" id="qty-Tiger Prawns">0 kg</span>
+    <button onclick="changeQty('Tiger Prawns', 1)">+</button>
   </div>
 </div>
 
@@ -204,9 +218,7 @@ h1 {
 </div>
 
 <div class="cart">
-  <div>
-    Total / మొత్తం: ₹<span id="total">0</span>
-  </div>
+  <div>Total / మొత్తం: ₹<span id="total">0</span></div>
   <button onclick="buyNow()">Order on WhatsApp</button>
 </div>
 
@@ -221,28 +233,27 @@ const prices = {
 let cart = {};
 let total = 0;
 
-function addItem(name) {
-  if (!cart[name]) cart[name] = 0;
-  cart[name] += 1;
-  total += prices[name];
-  updateTotal();
+function changeQty(item, delta) {
+  if (!cart[item]) cart[item] = 0;
+  cart[item] += delta;
+
+  if (cart[item] < 0) cart[item] = 0;
+
+  document.getElementById("qty-" + item).innerText = cart[item] + " kg";
+
+  calculateTotal();
 }
 
-function removeItem(name) {
-  if (cart[name] && cart[name] > 0) {
-    cart[name] -= 1;
-    total -= prices[name];
-    if (cart[name] === 0) delete cart[name];
-    updateTotal();
+function calculateTotal() {
+  total = 0;
+  for (let item in cart) {
+    total += cart[item] * prices[item];
   }
-}
-
-function updateTotal() {
   document.getElementById("total").innerText = total;
 }
 
 function buyNow() {
-  if (Object.keys(cart).length === 0) {
+  if (Object.keys(cart).length === 0 || total === 0) {
     alert("దయచేసి ముందుగా వస్తువులు ఎంచుకోండి");
     return;
   }
@@ -250,11 +261,12 @@ function buyNow() {
   let msg = "MVK Sea Foods ఆర్డర్%0A%0A";
 
   for (let item in cart) {
-    let qty = cart[item];
-    let price = prices[item];
-    let itemTotal = qty * price;
-    msg += item + " - " + qty + " kg × ₹" + price +
-           " = ₹" + itemTotal + "%0A";
+    if (cart[item] > 0) {
+      let qty = cart[item];
+      let price = prices[item];
+      msg += item + " - " + qty + " kg × ₹" + price +
+             " = ₹" + (qty * price) + "%0A";
+    }
   }
 
   msg += "%0Aమొత్తం ధర: ₹" + total +
