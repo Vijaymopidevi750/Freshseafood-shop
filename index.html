@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fresh Sea Food Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f9ff;
+            margin: 0;
+        }
+
+        header {
+            background: #0077b6;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        button {
+            background: #0096c7;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #023e8a;
+        }
+
+        .cart {
+            margin-top: 30px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🐟 Fresh Sea Food Shop</h1>
+    <p>Daily Fresh Fish Delivery</p>
+</header>
+
+<div class="container">
+
+    <h2>Available Fish</h2>
+
+    <div class="products">
+        <div class="product">
+            <h3>Pomfret Fish</h3>
+            <p>₹500 / kg</p>
+            <button onclick="addToCart('Pomfret Fish', 500)">Add to Cart</button>
+        </div>
+
+        <div class="product">
+            <h3>Rohu Fish</h3>
+            <p>₹300 / kg</p>
+            <button onclick="addToCart('Rohu Fish', 300)">Add to Cart</button>
+        </div>
+
+        <div class="product">
+            <h3>Prawns</h3>
+            <p>₹600 / kg</p>
+            <button onclick="addToCart('Prawns', 600)">Add to Cart</button>
+        </div>
+
+        <div class="product">
+            <h3>Crab</h3>
+            <p>₹700 / kg</p>
+            <button onclick="addToCart('Crab', 700)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="cart">
+        <h2>🛒 Cart</h2>
+        <ul id="cartItems"></ul>
+        <h3 id="totalPrice">Total: ₹0</h3>
+        <button onclick="placeOrder()">Place Order via WhatsApp</button>
+    </div>
+
+</div>
+
+<script>
+    let cart = [];
+    let total = 0;
+
+    function addToCart(item, price) {
+        cart.push({ item, price });
+        total += price;
+        updateCart();
+    }
+
+    function updateCart() {
+        const cartList = document.getElementById("cartItems");
+        cartList.innerHTML = "";
+
+        cart.forEach(product => {
+            const li = document.createElement("li");
+            li.textContent = product.item + " - ₹" + product.price;
+            cartList.appendChild(li);
+        });
+
+        document.getElementById("totalPrice").textContent = "Total: ₹" + total;
+    }
+
+    function placeOrder() {
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+
+        let message = "🧾 New Seafood Order:%0A";
+
+        cart.forEach(item => {
+            message += "- " + item.item + " ₹" + item.price + "%0A";
+        });
+
+        message += "%0A💰 Total: ₹" + total;
+
+        let phoneNumber = "918688918266"; // <-- PUT YOUR NUMBER HERE
+
+        window.open(
+            "https://wa.me/" + phoneNumber + "?text=" + message,
+            "_blank"
+        );
+
+        cart = [];
+        total = 0;
+        updateCart();
+    }
+</script>
+
+</body>
+</html>
