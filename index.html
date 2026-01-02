@@ -9,7 +9,7 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  background: #f4f6f9;
+  background: #f2f4f7;
 }
 
 /* HEADER */
@@ -17,43 +17,51 @@ header {
   background: #0b2c3d;
   color: #fff;
   text-align: center;
-  padding: 20px 15px;
+  padding: 18px 12px;
 }
 .logo {
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 4px solid gold;
   object-fit: cover;
-  margin-bottom: 10px;
 }
 h1 {
-  margin: 5px 0;
+  margin: 8px 0 4px;
 }
 .tagline {
   font-size: 14px;
-  opacity: 0.9;
+  opacity: 0.95;
+}
+.telugu {
+  font-size: 13px;
+  margin-top: 4px;
+  color: #ffd700;
 }
 
 /* CONTENT */
 .section {
-  padding: 20px;
+  padding: 16px;
+}
+.category {
+  margin-bottom: 30px;
 }
 .category h2 {
   border-bottom: 2px solid #0b2c3d;
   padding-bottom: 5px;
+  margin-bottom: 12px;
 }
 
 .products {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 15px;
+  gap: 14px;
 }
 
 .product {
   background: #fff;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   text-align: center;
 }
@@ -61,20 +69,24 @@ h1 {
   width: 100%;
   height: 120px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 .product h3 {
-  font-size: 14px;
-  margin: 6px 0;
+  font-size: 15px;
+  margin: 6px 0 2px;
+}
+.product .telugu {
+  font-size: 13px;
+  color: #555;
 }
 .product p {
-  margin: 4px 0;
+  margin: 5px 0;
   font-weight: bold;
 }
 
 /* CONTROLS */
 .controls button {
-  padding: 6px 12px;
+  padding: 6px 14px;
   font-size: 18px;
   margin: 0 6px;
   cursor: pointer;
@@ -88,7 +100,7 @@ h1 {
   right: 0;
   background: #0b2c3d;
   color: #fff;
-  padding: 15px;
+  padding: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -97,9 +109,9 @@ h1 {
   background: #25D366;
   border: none;
   color: #fff;
-  padding: 10px 18px;
+  padding: 10px 16px;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
 }
 </style>
@@ -111,7 +123,11 @@ h1 {
   <img src="mvk-logo.png" alt="MVK Sea Foods Logo" class="logo">
   <h1>MVK Sea Foods</h1>
   <div class="tagline">
-    Fresh Fish • Live Crab • Premium Prawns – Delivery & Pickup Available
+    Fresh Fish • Live Crab • Premium Prawns
+  </div>
+  <div class="telugu">
+    తాజా చేపలు • లైవ్ పీతలు • ప్రీమియం రొయ్యలు  
+    <br>డెలివరీ & పికప్ అందుబాటులో ఉన్నాయి
   </div>
 </header>
 
@@ -119,12 +135,13 @@ h1 {
 
 <!-- FISH -->
 <div class="category">
-<h2>Fish</h2>
+<h2>🐟 Fish / చేపలు</h2>
 <div class="products">
 
 <div class="product">
   <img src="images/white-pomfret.jpg">
   <h3>White Pomfret</h3>
+  <div class="telugu">వెండి పాంప్‌రెట్ చేప</div>
   <p>₹800 / kg</p>
   <div class="controls">
     <button onclick="addItem('White Pomfret')">+</button>
@@ -134,7 +151,8 @@ h1 {
 
 <div class="product">
   <img src="images/vanjaram.jpg">
-  <h3>Vanjaram</h3>
+  <h3>Vanjaram (Seer Fish)</h3>
+  <div class="telugu">వంజరం చేప</div>
   <p>₹900 / kg</p>
   <div class="controls">
     <button onclick="addItem('Vanjaram')">+</button>
@@ -147,12 +165,13 @@ h1 {
 
 <!-- CRAB -->
 <div class="category">
-<h2>Crab</h2>
+<h2>🦀 Crab / పీతలు</h2>
 <div class="products">
 
 <div class="product">
   <img src="images/mud-crab.jpg">
   <h3>Mud Crab</h3>
+  <div class="telugu">లైవ్ మట్టి పీత</div>
   <p>₹1200 / kg</p>
   <div class="controls">
     <button onclick="addItem('Mud Crab')">+</button>
@@ -165,12 +184,13 @@ h1 {
 
 <!-- PRAWNS -->
 <div class="category">
-<h2>Prawns</h2>
+<h2>🦐 Prawns / రొయ్యలు</h2>
 <div class="products">
 
 <div class="product">
   <img src="images/tiger-prawns.jpg">
   <h3>Tiger Prawns</h3>
+  <div class="telugu">టైగర్ రొయ్యలు</div>
   <p>₹1100 / kg</p>
   <div class="controls">
     <button onclick="addItem('Tiger Prawns')">+</button>
@@ -184,8 +204,10 @@ h1 {
 </div>
 
 <div class="cart">
-  <div>Total: ₹<span id="total">0</span></div>
-  <button onclick="buyNow()">Buy Now</button>
+  <div>
+    Total / మొత్తం: ₹<span id="total">0</span>
+  </div>
+  <button onclick="buyNow()">Order on WhatsApp</button>
 </div>
 
 <script>
@@ -199,7 +221,6 @@ const prices = {
 let cart = {};
 let total = 0;
 
-/* ADD 1 KG */
 function addItem(name) {
   if (!cart[name]) cart[name] = 0;
   cart[name] += 1;
@@ -207,7 +228,6 @@ function addItem(name) {
   updateTotal();
 }
 
-/* REMOVE 1 KG */
 function removeItem(name) {
   if (cart[name] && cart[name] > 0) {
     cart[name] -= 1;
@@ -221,14 +241,13 @@ function updateTotal() {
   document.getElementById("total").innerText = total;
 }
 
-/* WHATSAPP ORDER */
 function buyNow() {
   if (Object.keys(cart).length === 0) {
-    alert("Please add items to cart");
+    alert("దయచేసి ముందుగా వస్తువులు ఎంచుకోండి");
     return;
   }
 
-  let msg = "Order from MVK Sea Foods%0A%0A";
+  let msg = "MVK Sea Foods ఆర్డర్%0A%0A";
 
   for (let item in cart) {
     let qty = cart[item];
@@ -238,8 +257,8 @@ function buyNow() {
            " = ₹" + itemTotal + "%0A";
   }
 
-  msg += "%0ATotal Amount: ₹" + total +
-         "%0ADelivery / Pickup?";
+  msg += "%0Aమొత్తం ధర: ₹" + total +
+         "%0Aడెలివరీ లేదా పికప్?";
 
   window.open(
     "https://wa.me/918688918266?text=" + msg,
