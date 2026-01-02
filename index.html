@@ -29,12 +29,291 @@ header {
   height: 100px;
   border-radius: 50%;
   border: 3px solid gold;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 h1 {
   margin: 6px 0 2px;
   font-size: 22px;
+}
+
+.tagline {
+  font-size: 13px;
+}
+
+.telugu-header {
+  font-size: 12px;
+  color: #ffd700;
+  margin-top: 4px;
+}
+
+/* SECTION */
+.section {
+  padding: 12px;
+  padding-bottom: 100px;
+}
+
+/* CATEGORY */
+.category {
+  margin-bottom: 24px;
+}
+
+.category h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #0b2c3d;
+  padding-bottom: 4px;
+}
+
+/* PRODUCTS GRID */
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* PRODUCT CARD */
+.product {
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+/* IMAGE FIX — FULL IMAGE, NO CROP */
+.product img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;      /* VERY IMPORTANT */
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 6px;
+}
+
+.product h3 {
+  font-size: 14px;
+  margin: 6px 0 2px;
+}
+
+.telugu {
+  font-size: 12px;
+  color: #555;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+/* SAFE CONTROLS — WORKS ON ALL MOBILES */
+.controls {
+  margin-top: 8px;
+}
+
+.qty {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-row button {
+  flex: 1;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+  background: #0b2c3d;
+  color: #fff;
+}
+
+/* CART */
+.cart {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+}
+
+.cart-total {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.cart button {
+  background: #25D366;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="mvk-logo.png" class="logo" alt="MVK Sea Foods">
+  <h1>MVK Sea Foods</h1>
+  <div class="tagline">Fresh Fish • Live Crab • Premium Prawns</div>
+  <div class="telugu-header">
+    తాజా చేపలు • లైవ్ పీతలు • ప్రీమియం రొయ్యలు<br>
+    డెలివరీ & పికప్ అందుబాటులో ఉన్నాయి
+  </div>
+</header>
+
+<div class="section">
+
+<!-- FISH -->
+<div class="category">
+<h2>🐟 Fish / చేపలు</h2>
+<div class="products">
+
+<div class="product">
+  <img src="images/white-pomfret.jpg" alt="White Pomfret">
+  <h3>White Pomfret</h3>
+  <div class="telugu">వెండి పాంప్‌రెట్</div>
+  <div class="price">₹800 / kg</div>
+  <div class="controls">
+    <div class="qty" id="qty-White Pomfret">0 kg</div>
+    <div class="btn-row">
+      <button onclick="changeQty('White Pomfret',-1)">−</button>
+      <button onclick="changeQty('White Pomfret',1)">+</button>
+    </div>
+  </div>
+</div>
+
+<div class="product">
+  <img src="images/vanjaram.jpg" alt="Vanjaram">
+  <h3>Vanjaram</h3>
+  <div class="telugu">వంజరం చేప</div>
+  <div class="price">₹900 / kg</div>
+  <div class="controls">
+    <div class="qty" id="qty-Vanjaram">0 kg</div>
+    <div class="btn-row">
+      <button onclick="changeQty('Vanjaram',-1)">−</button>
+      <button onclick="changeQty('Vanjaram',1)">+</button>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- CRAB -->
+<div class="category">
+<h2>🦀 Crab / పీతలు</h2>
+<div class="products">
+
+<div class="product">
+  <img src="images/mud-crab.jpg" alt="Mud Crab">
+  <h3>Mud Crab</h3>
+  <div class="telugu">మట్టి పీత</div>
+  <div class="price">₹1200 / kg</div>
+  <div class="controls">
+    <div class="qty" id="qty-Mud Crab">0 kg</div>
+    <div class="btn-row">
+      <button onclick="changeQty('Mud Crab',-1)">−</button>
+      <button onclick="changeQty('Mud Crab',1)">+</button>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- PRAWNS -->
+<div class="category">
+<h2>🦐 Prawns / రొయ్యలు</h2>
+<div class="products">
+
+<div class="product">
+  <img src="images/tiger-prawns.jpg" alt="Tiger Prawns">
+  <h3>Tiger Prawns</h3>
+  <div class="telugu">టైగర్ రొయ్యలు</div>
+  <div class="price">₹1100 / kg</div>
+  <div class="controls">
+    <div class="qty" id="qty-Tiger Prawns">0 kg</div>
+    <div class="btn-row">
+      <button onclick="changeQty('Tiger Prawns',-1)">−</button>
+      <button onclick="changeQty('Tiger Prawns',1)">+</button>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div class="cart">
+  <div class="cart-total">Total ₹<span id="total">0</span></div>
+  <button onclick="buyNow()">WhatsApp Order</button>
+</div>
+
+<script>
+const prices = {
+  "White Pomfret": 800,
+  "Vanjaram": 900,
+  "Mud Crab": 1200,
+  "Tiger Prawns": 1100
+};
+
+let cart = {};
+let total = 0;
+
+function changeQty(item, delta) {
+  if (!cart[item]) cart[item] = 0;
+  cart[item] += delta;
+  if (cart[item] < 0) cart[item] = 0;
+
+  document.getElementById("qty-" + item).innerText = cart[item] + " kg";
+  calculateTotal();
+}
+
+function calculateTotal() {
+  total = 0;
+  for (let item in cart) {
+    total += cart[item] * prices[item];
+  }
+  document.getElementById("total").innerText = total;
+}
+
+function buyNow() {
+  if (total === 0) {
+    alert("దయచేసి ముందుగా వస్తువులు ఎంచుకోండి");
+    return;
+  }
+
+  let msg = "MVK Sea Foods Order%0A%0A";
+  for (let item in cart) {
+    if (cart[item] > 0) {
+      msg += item + " - " + cart[item] + " kg × ₹" +
+             prices[item] + " = ₹" +
+             (cart[item] * prices[item]) + "%0A";
+    }
+  }
+  msg += "%0ATotal: ₹" + total + "%0ADelivery / Pickup?";
+
+  window.open("https://wa.me/918688918266?text=" + msg, "_blank");
+}
+</script>
+
+</body>
+</html>  font-size: 22px;
 }
 
 .tagline {
@@ -301,3 +580,4 @@ function buyNow() {
 
 </body>
 </html>
+
