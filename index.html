@@ -63,14 +63,12 @@ h2{border-bottom:2px solid #0b2c3d}
 <img src="mvk-logo.png" class="logo">
 <h2>MVK Sea Foods</h2>
 <p>Fresh Fish • Live Crab • Premium Prawns</p>
-<p class="telugu">
-తాజా చేపలు • లైవ్ పీతలు • ప్రీమియం రొయ్యలు
-</p>
+<p class="telugu">తాజా చేపలు • లైవ్ పీతలు • ప్రీమియం రొయ్యలు</p>
 </header>
 
-<!-- 🔐 ADMIN PANEL -->
+<!-- ADMIN PANEL -->
 <div class="admin">
-<h3>🔐 Admin Panel (అడ్మిన్ ప్యానల్)</h3>
+<h3>🔐 Admin Panel</h3>
 <p class="telugu">ధరలు మార్చండి / స్టాక్ ఆన్–ఆఫ్ చేయండి</p>
 <div id="adminList"></div>
 </div>
@@ -85,16 +83,16 @@ h2{border-bottom:2px solid #0b2c3d}
 <button onclick="orderNow()">WhatsApp Order</button>
 </div>
 
-<!-- THANK YOU -->
+<!-- THANK YOU POPUP -->
 <div id="thankyou" class="thankyou">
 <div class="thankyou-box">
 <h3>🙏 Thanks for ordering!</h3>
 <p class="telugu">మీ ఆర్డర్‌కు ధన్యవాదాలు 🙏</p>
-<p>Order ID: <b id="orderId"></b></p>
+<p>Order ID: <b id="orderIdText"></b></p>
 <p><b>Delivery within 1 hour</b></p>
 <p class="telugu"><b>మీ ఆర్డర్ 1 గంటలో అందుతుంది</b></p>
 <p style="font-size:13px;color:#555">
-20 సెకన్లలో WhatsApp కు మారుతుంది…
+10 సెకన్లలో WhatsApp కు మారుతుంది…
 </p>
 </div>
 </div>
@@ -118,7 +116,7 @@ prices[i.n]=i.p;
 stock[i.n]=true;
 });
 
-// ADMIN UI
+/* ADMIN UI */
 const admin=document.getElementById("adminList");
 items.forEach(i=>{
 admin.innerHTML+=`
@@ -129,7 +127,7 @@ admin.innerHTML+=`
 </div>`;
 });
 
-// PRODUCT UI
+/* PRODUCT UI */
 const list=document.getElementById("productList");
 items.forEach(i=>{
 list.innerHTML+=`
@@ -149,10 +147,10 @@ if(!stock[item])return;
 cart[item]=(cart[item]||0)+d;
 if(cart[item]<0)cart[item]=0;
 document.getElementById("qty-"+item).innerText=cart[item]+" kg";
-calc();
+calculateTotal();
 }
 
-function calc(){
+function calculateTotal(){
 total=0;
 for(let i in cart) total+=cart[i]*prices[i];
 document.getElementById("total").innerText=total;
@@ -166,25 +164,40 @@ document.getElementById("p-"+item).classList.toggle("out");
 function updatePrice(item,val){
 prices[item]=Number(val);
 document.getElementById("price-"+item).innerText=val;
-calc();
+calculateTotal();
 }
 
 function orderNow(){
-if(total===0){alert("దయచేసి ఉత్పత్తులు ఎంచుకోండి");return;}
+if(total===0){
+alert("దయచేసి ఉత్పత్తులు ఎంచుకోండి");
+return;
+}
 
-let oid="MVK-"+Date.now().toString().slice(-6);
-document.getElementById("orderId").innerText=oid;
+/* ORDER ID – GUARANTEED */
+const orderId =
+"MVK-" +
+new Date().toISOString().slice(0,10).replace(/-/g,"") +
+"-" +
+Math.floor(1000 + Math.random()*9000);
+
+/* SHOW ORDER ID */
+document.getElementById("orderIdText").innerText=orderId;
 document.getElementById("thankyou").style.display="block";
 
-let msg="Order ID: "+oid+"%0A";
+/* BUILD WHATSAPP MESSAGE */
+let msg="MVK Sea Foods Order%0AOrder ID: "+orderId+"%0A%0A";
 for(let i in cart){
-if(cart[i]>0) msg+=i+" - "+cart[i]+" kg%0A";
+if(cart[i]>0){
+msg+=i+" - "+cart[i]+" kg × ₹"+prices[i]+" = ₹"+(cart[i]*prices[i])+"%0A";
 }
-msg+="Total ₹"+total+"%0ADelivery within 1 hour / 1 గంటలో";
+}
+msg+="%0ATotal: ₹"+total+
+"%0ADelivery within 1 hour / 1 గంటలో";
 
+/* REDIRECT AFTER 10 SECONDS */
 setTimeout(()=>{
 window.location.href="https://wa.me/918688918266?text="+msg;
-},20000);
+},10000);
 }
 </script>
 
