@@ -5,8 +5,6 @@
 <title>MVK Sea Foods</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
 :root{
   --primary:#0b2c3d;
@@ -29,7 +27,7 @@ header{
 h1{margin:10px 0 4px}
 .telugu{font-size:12px;color:#666}
 
-.section{padding:14px;padding-bottom:190px}
+.section{padding:14px;padding-bottom:200px}
 .products{
   display:grid;grid-template-columns:repeat(2,1fr);gap:14px
 }
@@ -120,7 +118,6 @@ h1{margin:10px 0 4px}
 <div class="admin" id="adminPanel">
 <h3>🔐 Admin Panel</h3>
 <div id="adminList"></div>
-<button onclick="downloadInvoice()">📄 Download PDF Invoice</button>
 </div>
 
 <div class="section">
@@ -139,8 +136,7 @@ h1{margin:10px 0 4px}
 <p>Order ID: <b id="oid"></b></p>
 <p><b>Delivery within 1 hour</b></p>
 <p class="telugu"><b>మీ ఆర్డర్ 1 గంటలో అందుతుంది</b></p>
-<p>Opening WhatsApp in <b><span id="countdown">7</span></b> seconds</p>
-<button onclick="openWhatsApp()">Open WhatsApp Now</button>
+<button onclick="openWhatsApp()">Open WhatsApp</button>
 </div>
 </div>
 
@@ -171,7 +167,7 @@ plist.innerHTML+=`
 <img src="images/${i.img}">
 <h4>${i.name}</h4>
 <div class="telugu">${i.tel}</div>
-<div class="price">₹<span id="price-${i.name}">${i.price}</span> / kg</div>
+<div class="price">₹${i.price} / kg</div>
 <div id="qty-${i.name}">0 kg</div>
 <div class="controls">
 <button onclick="qty('${i.name}',-1)">−</button>
@@ -210,7 +206,6 @@ document.getElementById("p-"+i).classList.toggle("out");
 }
 function updatePrice(i,v){
 prices[i]=Number(v);
-document.getElementById("price-"+i).innerText=v;
 calc();
 }
 
@@ -231,30 +226,12 @@ whatsMsg+=i+" - "+cart[i]+" kg × ₹"+prices[i]+" = ₹"+(cart[i]*prices[i])+"\
 }}
 whatsMsg+="\nTotal: ₹"+document.getElementById("total").innerText+
 "\nDelivery within 1 hour / 1 గంటలో";
-
-startCountdown();
-}
-
-function startCountdown(){
-let sec=7;
-const el=document.getElementById("countdown");
-el.innerText=sec;
-const timer=setInterval(()=>{
-sec--;el.innerText=sec;
-if(sec<=0)clearInterval(timer);
-},1000);
 }
 
 function openWhatsApp(){
 const msg=encodeURIComponent(whatsMsg);
-if(/Android/i.test(navigator.userAgent)){
-window.location.href=
-"intent://send?phone="+PHONE+"&text="+msg+
-"#Intent;scheme=smsto;package=com.whatsapp;end";
-}else{
 window.location.href=
 "https://wa.me/"+PHONE+"?text="+msg;
-}
 }
 
 /* ADMIN ACCESS */
@@ -268,22 +245,6 @@ document.getElementById("adminPanel").style.display="block";
 tap=0;
 }
 };
-
-/* PDF */
-function downloadInvoice(){
-const {jsPDF}=window.jspdf;
-const pdf=new jsPDF();
-pdf.text("MVK Sea Foods Invoice",20,20);
-pdf.text("Order ID: "+orderId,20,30);
-let y=40;
-for(let i in cart){
-if(cart[i]>0){
-pdf.text(`${i} - ${cart[i]} kg × ₹${prices[i]} = ₹${cart[i]*prices[i]}`,20,y);
-y+=10;
-}}
-pdf.text("Total: ₹"+document.getElementById("total").innerText,20,y+10);
-pdf.save(orderId+".pdf");
-}
 </script>
 
 </body>
