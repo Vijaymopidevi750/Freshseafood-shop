@@ -10,97 +10,51 @@
   --primary:#0b2c3d;
   --green:#25D366;
   --bg:#f4f6f8;
-  --card:#ffffff;
-  --gold:#d4af37;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,Arial;background:var(--bg)}
 
 header{
   background:linear-gradient(135deg,#0b2c3d,#123f55);
-  color:#fff;text-align:center;padding:22px 14px
+  color:#fff;text-align:center;padding:18px
 }
 .logo{
   width:90px;height:90px;border-radius:50%;
-  border:3px solid var(--gold);background:#fff
+  background:#fff
 }
-h1{margin:10px 0 4px}
-.telugu{font-size:12px;color:#666}
+.section{padding:14px;padding-bottom:180px}
 
-.section{padding:14px;padding-bottom:200px}
 .products{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:14px
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px
 }
-
-.product{
-  background:var(--card);
-  border-radius:16px;
-  padding:10px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-  text-align:center;
+.card{
+  background:#fff;border-radius:16px;
+  padding:10px;text-align:center;
+  box-shadow:0 6px 16px rgba(0,0,0,.1)
 }
-.product img{
+.card img{
   width:100%;aspect-ratio:1/1;
-  object-fit:contain;border-radius:12px;background:#fff
+  object-fit:contain;border-radius:12px
 }
-.product.out{
-  opacity:.45;pointer-events:none;position:relative
-}
-.product.out::after{
-  content:"OUT OF STOCK";
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.75);
-  color:#b00000;font-weight:700;border-radius:16px
-}
+.telugu{font-size:12px;color:#666}
 .price{font-weight:600;margin:6px 0}
-.controls{display:flex;gap:8px}
-.controls button{
-  flex:1;height:36px;font-size:20px;
-  border:none;border-radius:10px;
-  background:var(--primary);color:#fff
+
+select{
+  width:100%;padding:8px;border-radius:8px
 }
 
 .cart{
   position:fixed;bottom:0;left:0;right:0;
-  background:#fff;box-shadow:0 -4px 20px rgba(0,0,0,.15);
-  padding:14px;display:flex;
-  justify-content:space-between;align-items:center
+  background:#fff;padding:14px;
+  display:flex;justify-content:space-between;
+  box-shadow:0 -4px 20px rgba(0,0,0,.2)
 }
 .cart button{
   background:var(--green);color:#fff;
   border:none;padding:12px 18px;
-  font-size:16px;border-radius:10px
-}
-
-/* ADMIN */
-.admin{
-  display:none;background:#fff;margin:14px;
-  padding:14px;border-radius:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,.1)
-}
-.admin-row{
-  display:grid;
-  grid-template-columns:1fr 80px 100px;
-  gap:8px;margin-bottom:8px
-}
-
-/* THANK YOU */
-.thankyou{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.55);z-index:9999
-}
-.thankyou-box{
-  background:#fff;padding:22px;border-radius:18px;
-  text-align:center;width:86%;max-width:360px;
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%)
-}
-.thankyou-box button{
-  width:100%;margin-top:12px;
-  background:var(--green);color:#fff;
-  border:none;padding:12px;
-  font-size:16px;border-radius:10px
+  border-radius:10px;font-size:16px
 }
 </style>
 </head>
@@ -108,41 +62,23 @@ h1{margin:10px 0 4px}
 <body>
 
 <header>
-<img src="mvk-logo.png" class="logo" id="logo">
-<h1>MVK Sea Foods</h1>
+<img src="mvk-logo.png" class="logo">
+<h2>MVK Sea Foods</h2>
 <p>Fresh Fish • Live Crab • Premium Prawns</p>
 <p class="telugu">తాజా చేపలు • లైవ్ పీతలు • ప్రీమియం రొయ్యలు</p>
 </header>
 
-<!-- ADMIN PANEL -->
-<div class="admin" id="adminPanel">
-<h3>🔐 Admin Panel</h3>
-<div id="adminList"></div>
-</div>
-
 <div class="section">
-<div class="products" id="productList"></div>
+<div class="products" id="products"></div>
 </div>
 
 <div class="cart">
 <div>Total ₹<span id="total">0</span></div>
-<button onclick="orderNow()">WhatsApp Order</button>
-</div>
-
-<!-- THANK YOU -->
-<div id="thankyou" class="thankyou">
-<div class="thankyou-box">
-<h3>🙏 Thanks for ordering!</h3>
-<p>Order ID: <b id="oid"></b></p>
-<p><b>Delivery within 1 hour</b></p>
-<p class="telugu"><b>మీ ఆర్డర్ 1 గంటలో అందుతుంది</b></p>
-<button onclick="openWhatsApp()">Open WhatsApp</button>
-</div>
+<button onclick="order()">WhatsApp Order</button>
 </div>
 
 <script>
-const ADMIN_PASSWORD="MVK@123";
-const PHONE="918688918266";
+const PHONE="91XXXXXXXXXX"; // YOUR WHATSAPP NUMBER
 
 const items=[
 {name:"White Pomfret",tel:"వెండి పాంప్‌రెట్",price:800,img:"white-pomfret.jpg"},
@@ -155,96 +91,64 @@ const items=[
 {name:"Vannamei Prawns",tel:"వనామీ రొయ్యలు",price:850,img:"vannamei-prawns.jpg"}
 ];
 
-let prices={},cart={},stock={},orderId="",tap=0,whatsMsg="";
-
-items.forEach(i=>{prices[i.name]=i.price;stock[i.name]=true});
-
-/* PRODUCTS */
-const plist=document.getElementById("productList");
+// 🔁 SYNC PRICES FROM ADMIN
+const savedPrices = JSON.parse(localStorage.getItem("mvk_prices")) || {};
 items.forEach(i=>{
-plist.innerHTML+=`
-<div class="product" id="p-${i.name}">
+  if(savedPrices[i.name]) i.price = savedPrices[i.name];
+});
+
+let cart={},total=0;
+const p=document.getElementById("products");
+
+items.forEach(i=>{
+p.innerHTML+=`
+<div class="card">
 <img src="images/${i.img}">
 <h4>${i.name}</h4>
 <div class="telugu">${i.tel}</div>
 <div class="price">₹${i.price} / kg</div>
-<div id="qty-${i.name}">0 kg</div>
-<div class="controls">
-<button onclick="qty('${i.name}',-1)">−</button>
-<button onclick="qty('${i.name}',1)">+</button>
-</div>
+
+<select onchange="selectQty('${i.name}',this.value)">
+  <option value="0">Select Qty</option>
+  <option value="0.25">0.25 kg</option>
+  <option value="0.5">0.5 kg</option>
+  <option value="1">1 kg</option>
+</select>
 </div>`;
 });
 
-/* ADMIN */
-const adminList=document.getElementById("adminList");
-items.forEach(i=>{
-adminList.innerHTML+=`
-<div class="admin-row">
-<b>${i.name}</b>
-<input type="number" value="${i.price}" onchange="updatePrice('${i.name}',this.value)">
-<button onclick="toggleStock('${i.name}')">Stock</button>
-</div>`;
-});
-
-/* LOGIC */
-function qty(item,d){
-if(!stock[item])return;
-cart[item]=(cart[item]||0)+d;
-if(cart[item]<0)cart[item]=0;
-document.getElementById("qty-"+item).innerText=cart[item]+" kg";
+function selectQty(name,kg){
+cart[name]=Number(kg);
 calc();
 }
+
 function calc(){
-let t=0;
-for(let i in cart)t+=cart[i]*prices[i];
-document.getElementById("total").innerText=t;
+total=0;
+for(let n in cart){
+const item=items.find(i=>i.name===n);
+total+=cart[n]*item.price;
 }
-function toggleStock(i){
-stock[i]=!stock[i];
-document.getElementById("p-"+i).classList.toggle("out");
-}
-function updatePrice(i,v){
-prices[i]=Number(v);
-calc();
+document.getElementById("total").innerText=total.toFixed(0);
 }
 
-/* ORDER */
-function orderNow(){
-if(document.getElementById("total").innerText==0){
-alert("దయచేసి ఉత్పత్తులు ఎంచుకోండి");
-return;
-}
-orderId="MVK-"+Date.now();
-document.getElementById("oid").innerText=orderId;
-document.getElementById("thankyou").style.display="block";
+function order(){
+if(total===0){alert("దయచేసి పరిమాణం ఎంచుకోండి");return;}
 
-whatsMsg="MVK Sea Foods Order\nOrder ID: "+orderId+"\n\n";
-for(let i in cart){
-if(cart[i]>0){
-whatsMsg+=i+" - "+cart[i]+" kg × ₹"+prices[i]+" = ₹"+(cart[i]*prices[i])+"\n";
-}}
-whatsMsg+="\nTotal: ₹"+document.getElementById("total").innerText+
-"\nDelivery within 1 hour / 1 గంటలో";
-}
+const orderId="MVK-"+Date.now();
 
-function openWhatsApp(){
-const msg=encodeURIComponent(whatsMsg);
+let msg="MVK Sea Foods Order\n";
+msg+="Order ID: "+orderId+"\n\n";
+
+for(let n in cart){
+if(cart[n]>0){
+msg+=`${n} - ${cart[n]} kg\n`;
+}
+}
+msg+=`\nTotal: ₹${total}\nDelivery within 1 hour`;
+
 window.location.href=
-"https://wa.me/"+PHONE+"?text="+msg;
+"https://wa.me/"+PHONE+"?text="+encodeURIComponent(msg);
 }
-
-/* ADMIN ACCESS */
-document.getElementById("logo").onclick=()=>{
-tap++;
-if(tap===5){
-let p=prompt("Enter Admin Password");
-if(p===ADMIN_PASSWORD){
-document.getElementById("adminPanel").style.display="block";
-}else alert("Wrong password");
-tap=0;
-}
-};
 </script>
 
 </body>
