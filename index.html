@@ -18,6 +18,13 @@ h1{margin:6px 0;font-size:22px}
 /* PAGE */
 .section{padding:12px;padding-bottom:130px}
 
+/* CATEGORY */
+.category{margin-bottom:26px}
+.category h2{
+  font-size:18px;margin-bottom:10px;
+  border-bottom:2px solid #0b2c3d;padding-bottom:4px
+}
+
 /* GRID */
 .products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 
@@ -26,12 +33,13 @@ h1{margin:6px 0;font-size:22px}
   background:#fff;border-radius:14px;padding:10px;
   box-shadow:0 2px 8px rgba(0,0,0,.12);text-align:center
 }
-.product.out{opacity:.5}
+.product.out{opacity:.45}
 .product img{
   width:100%;aspect-ratio:1/1;object-fit:contain;
   background:#fff;border-radius:10px;padding:6px
 }
 .price{font-weight:bold;margin:4px 0}
+.out-label{color:red;font-weight:bold}
 
 /* WEIGHT */
 .weight select{
@@ -71,9 +79,12 @@ h1{margin:6px 0;font-size:22px}
 </header>
 
 <div class="section">
+
+<!-- FISH -->
+<div class="category">
+<h2>🐟 Fish</h2>
 <div class="products">
 
-<!-- WHITE POMFRET -->
 <div class="product">
 <img src="images/white-pomfret.jpg">
 <h3>White Pomfret</h3>
@@ -94,7 +105,6 @@ h1{margin:6px 0;font-size:22px}
 </div>
 </div>
 
-<!-- BLACK POMFRET -->
 <div class="product">
 <img src="images/black-pomfret.jpg">
 <h3>Black Pomfret</h3>
@@ -115,15 +125,13 @@ h1{margin:6px 0;font-size:22px}
 </div>
 </div>
 
-<!-- VANJARAM -->
 <div class="product out">
 <img src="images/vanjaram.jpg">
 <h3>Vanjaram</h3>
 <div class="price">₹900 / kg</div>
-<strong>Out of Stock</strong>
+<div class="out-label">Out of Stock</div>
 </div>
 
-<!-- TUNA -->
 <div class="product">
 <img src="images/tuna.jpg">
 <h3>Tuna Fish</h3>
@@ -147,6 +155,91 @@ h1{margin:6px 0;font-size:22px}
 </div>
 </div>
 
+<!-- CRAB -->
+<div class="category">
+<h2>🦀 Crab</h2>
+<div class="products">
+
+<div class="product">
+<img src="images/mud-crab.jpg">
+<h3>Mud Crab</h3>
+<div class="price">₹1200 / kg</div>
+<div class="weight">
+<select onchange="setWeight('Mud Crab',this.value)">
+<option value="1">1 kg</option>
+<option value="0.5">500 g</option>
+<option value="0.25">250 g</option>
+</select>
+</div>
+<div class="controls">
+<div class="qty" id="qty-Mud Crab">0 kg</div>
+<div class="btn-row">
+<button onclick="changeQty('Mud Crab',-1)">−</button>
+<button onclick="changeQty('Mud Crab',1)">+</button>
+</div>
+</div>
+</div>
+
+<div class="product out">
+<img src="images/blue-crab.jpg">
+<h3>Blue Crab</h3>
+<div class="price">₹900 / kg</div>
+<div class="out-label">Out of Stock</div>
+</div>
+
+</div>
+</div>
+
+<!-- PRAWNS -->
+<div class="category">
+<h2>🦐 Prawns</h2>
+<div class="products">
+
+<div class="product">
+<img src="images/tiger-prawns.jpg">
+<h3>Tiger Prawns</h3>
+<div class="price">₹1100 / kg</div>
+<div class="weight">
+<select onchange="setWeight('Tiger Prawns',this.value)">
+<option value="1">1 kg</option>
+<option value="0.5">500 g</option>
+<option value="0.25">250 g</option>
+</select>
+</div>
+<div class="controls">
+<div class="qty" id="qty-Tiger Prawns">0 kg</div>
+<div class="btn-row">
+<button onclick="changeQty('Tiger Prawns',-1)">−</button>
+<button onclick="changeQty('Tiger Prawns',1)">+</button>
+</div>
+</div>
+</div>
+
+<div class="product">
+<img src="images/vannamei-prawns.jpg">
+<h3>Vannamei Prawns</h3>
+<div class="price">₹850 / kg</div>
+<div class="weight">
+<select onchange="setWeight('Vannamei Prawns',this.value)">
+<option value="1">1 kg</option>
+<option value="0.5">500 g</option>
+<option value="0.25">250 g</option>
+</select>
+</div>
+<div class="controls">
+<div class="qty" id="qty-Vannamei Prawns">0 kg</div>
+<div class="btn-row">
+<button onclick="changeQty('Vannamei Prawns',-1)">−</button>
+<button onclick="changeQty('Vannamei Prawns',1)">+</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
 <div class="cart">
 <div>Total ₹<span id="total">0</span></div>
 <button onclick="buyNow()">WhatsApp Order</button>
@@ -154,40 +247,49 @@ h1{margin:6px 0;font-size:22px}
 
 <script>
 const prices={
-"White Pomfret":800,
-"Black Pomfret":700,
-"Tuna":600
+  "White Pomfret":800,
+  "Black Pomfret":700,
+  "Tuna":600,
+  "Mud Crab":1200,
+  "Tiger Prawns":1100,
+  "Vannamei Prawns":850
 };
+
 let cart={},weights={},total=0;
 
 function setWeight(item,val){
-weights[item]=parseFloat(val);
+  weights[item]=parseFloat(val);
 }
 
 function changeQty(item,dir){
-weights[item]=weights[item]||1;
-cart[item]=(cart[item]||0)+(dir*weights[item]);
-if(cart[item]<0)cart[item]=0;
-document.getElementById("qty-"+item).innerText=cart[item].toFixed(2)+" kg";
-calc();
+  weights[item]=weights[item]||1;
+  cart[item]=(cart[item]||0)+(dir*weights[item]);
+  if(cart[item]<0)cart[item]=0;
+  document.getElementById("qty-"+item).innerText=cart[item].toFixed(2)+" kg";
+  calculateTotal();
 }
 
-function calc(){
-total=0;
-for(let i in cart)total+=cart[i]*prices[i];
-document.getElementById("total").innerText=total.toFixed(0);
+function calculateTotal(){
+  total=0;
+  for(let i in cart){
+    total+=cart[i]*prices[i];
+  }
+  document.getElementById("total").innerText=total.toFixed(0);
 }
 
 function buyNow(){
-if(total===0){alert("Please select items");return;}
-let msg="MVK Sea Foods Order%0A";
-for(let i in cart){
-if(cart[i]>0){
-msg+=i+" - "+cart[i].toFixed(2)+" kg%0A";
-}
-}
-msg+="Total ₹"+total.toFixed(0)+"%0ADelivery within 1 hour";
-window.open("https://wa.me/918688918266?text="+msg,"_blank");
+  if(total===0){
+    alert("Please select items");
+    return;
+  }
+  let msg="MVK Sea Foods Order%0A%0A";
+  for(let i in cart){
+    if(cart[i]>0){
+      msg+=i+" - "+cart[i].toFixed(2)+" kg × ₹"+prices[i]+" = ₹"+(cart[i]*prices[i]).toFixed(0)+"%0A";
+    }
+  }
+  msg+="%0ATotal: ₹"+total.toFixed(0)+"%0ADelivery within 1 hour";
+  window.open("https://wa.me/918688918266?text="+msg,"_blank");
 }
 </script>
 
