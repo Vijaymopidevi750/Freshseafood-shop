@@ -5,13 +5,12 @@
 <title>MVK Sea Foods</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 :root{
   --primary:#0b2c3d;
-  --accent:#25D366;
+  --green:#25D366;
   --bg:#f4f6f8;
   --card:#ffffff;
   --gold:#d4af37;
@@ -27,10 +26,10 @@ header{
   width:90px;height:90px;border-radius:50%;
   border:3px solid var(--gold);background:#fff
 }
-header h1{margin:10px 0 4px;font-size:24px}
-header p{margin:0;font-size:13px}
+h1{margin:10px 0 4px}
+.telugu{font-size:12px;color:#666}
 
-.section{padding:14px;padding-bottom:180px}
+.section{padding:14px;padding-bottom:190px}
 .products{
   display:grid;grid-template-columns:repeat(2,1fr);gap:14px
 }
@@ -43,8 +42,8 @@ header p{margin:0;font-size:13px}
   text-align:center;
 }
 .product img{
-  width:100%;aspect-ratio:1/1;object-fit:contain;
-  border-radius:12px;background:#fff
+  width:100%;aspect-ratio:1/1;
+  object-fit:contain;border-radius:12px;background:#fff
 }
 .product.out{
   opacity:.45;pointer-events:none;position:relative
@@ -56,13 +55,8 @@ header p{margin:0;font-size:13px}
   background:rgba(255,255,255,.75);
   color:#b00000;font-weight:700;border-radius:16px
 }
-.product h4{margin:6px 0 2px}
-.telugu{font-size:12px;color:#666}
 .price{font-weight:600;margin:6px 0}
-
-.controls{
-  display:flex;gap:8px;margin-top:6px
-}
+.controls{display:flex;gap:8px}
 .controls button{
   flex:1;height:36px;font-size:20px;
   border:none;border-radius:10px;
@@ -76,7 +70,7 @@ header p{margin:0;font-size:13px}
   justify-content:space-between;align-items:center
 }
 .cart button{
-  background:var(--accent);color:#fff;
+  background:var(--green);color:#fff;
   border:none;padding:12px 18px;
   font-size:16px;border-radius:10px
 }
@@ -103,6 +97,12 @@ header p{margin:0;font-size:13px}
   text-align:center;width:86%;max-width:360px;
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%)
+}
+.thankyou-box button{
+  width:100%;margin-top:12px;
+  background:var(--green);color:#fff;
+  border:none;padding:12px;
+  font-size:16px;border-radius:10px
 }
 </style>
 </head>
@@ -139,7 +139,8 @@ header p{margin:0;font-size:13px}
 <p>Order ID: <b id="oid"></b></p>
 <p><b>Delivery within 1 hour</b></p>
 <p class="telugu"><b>మీ ఆర్డర్ 1 గంటలో అందుతుంది</b></p>
-<p style="font-size:13px">7 సెకన్లలో WhatsApp కు మారుతుంది…</p>
+<p>Opening WhatsApp in <b><span id="countdown">7</span></b> seconds</p>
+<button onclick="openWhatsApp()">Open WhatsApp Now</button>
 </div>
 </div>
 
@@ -158,17 +159,14 @@ const items=[
 {name:"Vannamei Prawns",tel:"వనామీ రొయ్యలు",price:850,img:"vannamei-prawns.jpg"}
 ];
 
-let prices={},cart={},stock={},orderId="",tap=0;
+let prices={},cart={},stock={},orderId="",tap=0,whatsMsg="";
 
-items.forEach(i=>{
-prices[i.name]=i.price;
-stock[i.name]=true;
-});
+items.forEach(i=>{prices[i.name]=i.price;stock[i.name]=true});
 
 /* PRODUCTS */
-const list=document.getElementById("productList");
+const plist=document.getElementById("productList");
 items.forEach(i=>{
-list.innerHTML+=`
+plist.innerHTML+=`
 <div class="product" id="p-${i.name}">
 <img src="images/${i.img}">
 <h4>${i.name}</h4>
@@ -218,21 +216,37 @@ calc();
 
 /* ORDER */
 function orderNow(){
-let total=document.getElementById("total").innerText;
-if(total==0)return alert("దయచేసి ఉత్పత్తులు ఎంచుకోండి");
-
+if(document.getElementById("total").innerText==0){
+alert("దయచేసి ఉత్పత్తులు ఎంచుకోండి");
+return;
+}
 orderId="MVK-"+Date.now();
 document.getElementById("oid").innerText=orderId;
 document.getElementById("thankyou").style.display="block";
 
-let msg="MVK Sea Foods Order%0AOrder ID: "+orderId+"%0A%0A";
+whatsMsg="MVK Sea Foods Order\nOrder ID: "+orderId+"\n\n";
 for(let i in cart){
 if(cart[i]>0){
-msg+=i+" - "+cart[i]+" kg × ₹"+prices[i]+" = ₹"+(cart[i]*prices[i])+"%0A";
+whatsMsg+=i+" - "+cart[i]+" kg × ₹"+prices[i]+" = ₹"+(cart[i]*prices[i])+"\n";
 }}
-msg+="%0ATotal: ₹"+total+"%0ADelivery within 1 hour / 1 గంటలో";
+whatsMsg+="\nTotal: ₹"+document.getElementById("total").innerText+
+"\nDelivery within 1 hour / 1 గంటలో";
 
-setTimeout(()=>{
+startCountdown();
+}
+
+function startCountdown(){
+let sec=7;
+const el=document.getElementById("countdown");
+el.innerText=sec;
+const timer=setInterval(()=>{
+sec--;el.innerText=sec;
+if(sec<=0)clearInterval(timer);
+},1000);
+}
+
+function openWhatsApp(){
+const msg=encodeURIComponent(whatsMsg);
 if(/Android/i.test(navigator.userAgent)){
 window.location.href=
 "intent://send?phone="+PHONE+"&text="+msg+
@@ -241,7 +255,6 @@ window.location.href=
 window.location.href=
 "https://wa.me/"+PHONE+"?text="+msg;
 }
-},7000);
 }
 
 /* ADMIN ACCESS */
