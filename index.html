@@ -11,24 +11,34 @@ body {
   margin: 0;
   background: #f4f6f9;
 }
+
+/* HEADER */
 header {
   background: #0b2c3d;
   color: #fff;
   text-align: center;
-  padding: 22px 15px;
+  padding: 20px 15px;
 }
-.logo-text {
-  font-size: 32px;
-  font-weight: bold;
-  letter-spacing: 1px;
+.logo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 4px solid gold;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+h1 {
+  margin: 5px 0;
 }
 .tagline {
   font-size: 14px;
-  margin-top: 6px;
   opacity: 0.9;
 }
 
-.section { padding: 20px; }
+/* CONTENT */
+.section {
+  padding: 20px;
+}
 .category h2 {
   border-bottom: 2px solid #0b2c3d;
   padding-bottom: 5px;
@@ -62,13 +72,15 @@ header {
   font-weight: bold;
 }
 
+/* CONTROLS */
 .controls button {
-  padding: 4px 12px;
+  padding: 6px 12px;
   font-size: 18px;
   margin: 0 6px;
   cursor: pointer;
 }
 
+/* CART */
 .cart {
   position: fixed;
   bottom: 0;
@@ -96,7 +108,8 @@ header {
 <body>
 
 <header>
-  <div class="logo-text">MVK Sea Foods</div>
+  <img src="mvk-logo.png" alt="MVK Sea Foods Logo" class="logo">
+  <h1>MVK Sea Foods</h1>
   <div class="tagline">
     Fresh Fish • Live Crab • Premium Prawns – Delivery & Pickup Available
   </div>
@@ -186,13 +199,15 @@ const prices = {
 let cart = {};
 let total = 0;
 
+/* ADD 1 KG */
 function addItem(name) {
   if (!cart[name]) cart[name] = 0;
-  cart[name] += 1; // 1 kg
+  cart[name] += 1;
   total += prices[name];
   updateTotal();
 }
 
+/* REMOVE 1 KG */
 function removeItem(name) {
   if (cart[name] && cart[name] > 0) {
     cart[name] -= 1;
@@ -206,6 +221,7 @@ function updateTotal() {
   document.getElementById("total").innerText = total;
 }
 
+/* WHATSAPP ORDER */
 function buyNow() {
   if (Object.keys(cart).length === 0) {
     alert("Please add items to cart");
