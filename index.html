@@ -6,189 +6,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f2f4f7;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f4f7}
 
 /* HEADER */
-header {
-  background: #0b2c3d;
-  color: #fff;
-  text-align: center;
-  padding: 16px 12px;
+header{
+  background:#0b2c3d;color:#fff;text-align:center;padding:16px 12px
 }
-.logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 3px solid gold;
-  object-fit: contain;
+.logo{
+  width:100px;height:100px;border-radius:50%;
+  border:3px solid gold;object-fit:contain
 }
-h1 {
-  margin: 6px 0 2px;
-  font-size: 22px;
-}
-.tagline {
-  font-size: 13px;
-}
-.telugu-header {
-  font-size: 12px;
-  color: #ffd700;
-  margin-top: 4px;
-}
+h1{margin:6px 0 2px;font-size:22px}
+.tagline{font-size:13px}
+.telugu-header{font-size:12px;color:#ffd700;margin-top:4px}
 
 /* PAGE */
-.section {
-  padding: 12px;
-  padding-bottom: 120px;
-}
+.section{padding:12px;padding-bottom:120px}
 
 /* CATEGORY */
-.category h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #0b2c3d;
-  padding-bottom: 4px;
+.category{margin-bottom:26px}
+.category h2{
+  font-size:18px;margin-bottom:10px;
+  border-bottom:2px solid #0b2c3d;padding-bottom:4px
 }
 
 /* GRID */
-.products {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+.products{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px
 }
 
 /* PRODUCT CARD */
-.product {
-  background: #fff;
-  border-radius: 14px;
-  padding: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  text-align: center;
+.product{
+  background:#fff;border-radius:14px;padding:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.12);text-align:center
 }
-.product img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  background: #fff;
-  border-radius: 10px;
-  padding: 6px;
-  cursor: zoom-in;
+.product img{
+  width:100%;aspect-ratio:1/1;object-fit:contain;
+  background:#fff;border-radius:10px;padding:6px;cursor:zoom-in
 }
-.product h3 {
-  font-size: 14px;
-  margin: 6px 0 2px;
-}
-.price {
-  font-size: 14px;
-  font-weight: bold;
-  margin: 4px 0;
-}
+.product h3{font-size:14px;margin:6px 0 2px}
+.telugu{font-size:12px;color:#555}
+.price{font-size:14px;font-weight:bold;margin:4px 0}
 
 /* CONTROLS */
-.controls {
-  margin-top: 8px;
-}
-.qty {
-  font-size: 15px;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-.btn-row {
-  display: flex;
-  gap: 8px;
-}
-.btn-row button {
-  flex: 1;
-  height: 40px;
-  font-size: 20px;
-  border-radius: 10px;
-  border: none;
-  background: #0b2c3d;
-  color: #fff;
+.controls{margin-top:8px}
+.qty{font-size:15px;font-weight:bold;margin-bottom:6px}
+.btn-row{display:flex;gap:8px}
+.btn-row button{
+  flex:1;height:40px;font-size:20px;border-radius:10px;
+  border:none;background:#0b2c3d;color:#fff
 }
 
 /* CART */
-.cart {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #ffffff;
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+.cart{
+  position:fixed;bottom:0;left:0;right:0;background:#fff;
+  padding:12px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 -2px 10px rgba(0,0,0,.2)
 }
-.cart-total {
-  font-size: 16px;
-  font-weight: bold;
-}
-.cart button {
-  background: #25D366;
-  color: #fff;
-  border: none;
-  padding: 12px 18px;
-  font-size: 16px;
-  border-radius: 8px;
+.cart-total{font-size:16px;font-weight:bold}
+.cart button{
+  background:#25D366;color:#fff;border:none;
+  padding:12px 18px;font-size:16px;border-radius:8px
 }
 
-/* IMAGE POPUP */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
+/* IMAGE MODAL */
+.modal{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.9);z-index:9999
 }
-.modal-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 95%;
-  max-height: 95%;
+.modal-content{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  max-width:95%;max-height:95%
 }
-.modal img {
-  width: 100%;
-}
-.close {
-  position: fixed;
-  top: 15px;
-  right: 20px;
-  font-size: 28px;
-  color: #fff;
-  cursor: pointer;
+.modal img{width:100%}
+.close{
+  position:fixed;top:15px;right:20px;
+  font-size:28px;color:#fff;cursor:pointer
 }
 
-/* THANK YOU POPUP */
-.thankyou {
-  display: none;
-  position: fixed;
-  z-index: 10000;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
+/* THANK YOU */
+.thankyou{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.6);z-index:10000
 }
-.thankyou-box {
-  background: #fff;
-  padding: 22px;
-  border-radius: 14px;
-  text-align: center;
-  width: 80%;
-  max-width: 320px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.thankyou-box{
+  background:#fff;padding:22px;border-radius:14px;
+  text-align:center;width:80%;max-width:320px;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%)
 }
-.thankyou-box h3 {
-  color: #0b2c3d;
-}
+.thankyou-box h3{color:#0b2c3d}
 </style>
 </head>
 
@@ -206,21 +115,81 @@ h1 {
 
 <div class="section">
 
+<!-- FISH -->
 <div class="category">
 <h2>🐟 Fish</h2>
 <div class="products">
 
 <div class="product">
-  <img src="images/white-pomfret.jpg" onclick="openImage(this.src)">
-  <h3>White Pomfret</h3>
-  <div class="price">₹800 / kg</div>
-  <div class="controls">
-    <div class="qty" id="qty-White Pomfret">0 kg</div>
-    <div class="btn-row">
-      <button onclick="changeQty(-1)">−</button>
-      <button onclick="changeQty(1)">+</button>
-    </div>
+<img src="images/white-pomfret.jpg" onclick="openImage(this.src)">
+<h3>White Pomfret</h3>
+<div class="telugu">వెండి పాంప్‌రెట్</div>
+<div class="price">₹800 / kg</div>
+<div class="controls">
+  <div class="qty" id="qty-White Pomfret">0 kg</div>
+  <div class="btn-row">
+    <button onclick="changeQty('White Pomfret',-1)">−</button>
+    <button onclick="changeQty('White Pomfret',1)">+</button>
   </div>
+</div>
+</div>
+
+<div class="product">
+<img src="images/vanjaram.jpg" onclick="openImage(this.src)">
+<h3>Vanjaram</h3>
+<div class="telugu">వంజరం చేప</div>
+<div class="price">₹900 / kg</div>
+<div class="controls">
+  <div class="qty" id="qty-Vanjaram">0 kg</div>
+  <div class="btn-row">
+    <button onclick="changeQty('Vanjaram',-1)">−</button>
+    <button onclick="changeQty('Vanjaram',1)">+</button>
+  </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- CRAB -->
+<div class="category">
+<h2>🦀 Crab</h2>
+<div class="products">
+
+<div class="product">
+<img src="images/mud-crab.jpg" onclick="openImage(this.src)">
+<h3>Mud Crab</h3>
+<div class="telugu">మట్టి పీత</div>
+<div class="price">₹1200 / kg</div>
+<div class="controls">
+  <div class="qty" id="qty-Mud Crab">0 kg</div>
+  <div class="btn-row">
+    <button onclick="changeQty('Mud Crab',-1)">−</button>
+    <button onclick="changeQty('Mud Crab',1)">+</button>
+  </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- PRAWNS -->
+<div class="category">
+<h2>🦐 Prawns</h2>
+<div class="products">
+
+<div class="product">
+<img src="images/tiger-prawns.jpg" onclick="openImage(this.src)">
+<h3>Tiger Prawns</h3>
+<div class="telugu">టైగర్ రొయ్యలు</div>
+<div class="price">₹1100 / kg</div>
+<div class="controls">
+  <div class="qty" id="qty-Tiger Prawns">0 kg</div>
+  <div class="btn-row">
+    <button onclick="changeQty('Tiger Prawns',-1)">−</button>
+    <button onclick="changeQty('Tiger Prawns',1)">+</button>
+  </div>
+</div>
 </div>
 
 </div>
@@ -230,65 +199,78 @@ h1 {
 
 <!-- IMAGE MODAL -->
 <div id="imageModal" class="modal" onclick="closeImage()">
-  <span class="close">&times;</span>
-  <div class="modal-content">
-    <img id="modalImg">
-  </div>
+<span class="close">&times;</span>
+<div class="modal-content">
+<img id="modalImg">
+</div>
 </div>
 
 <!-- THANK YOU -->
 <div id="thankyou" class="thankyou">
-  <div class="thankyou-box">
-    <h3>🙏 Thanks for ordering!</h3>
-    <p>You will receive your items<br><strong>within 1 hour</strong>.</p>
-    <p style="font-size:13px;color:#555;">Redirecting to WhatsApp…</p>
-  </div>
+<div class="thankyou-box">
+<h3>🙏 Thanks for ordering!</h3>
+<p>You will receive your items<br><strong>within 1 hour</strong>.</p>
+<p style="font-size:13px;color:#555">Redirecting to WhatsApp…</p>
+</div>
 </div>
 
 <div class="cart">
-  <div class="cart-total">Total ₹<span id="total">0</span></div>
-  <button onclick="buyNow()">WhatsApp Order</button>
+<div class="cart-total">Total ₹<span id="total">0</span></div>
+<button onclick="buyNow()">WhatsApp Order</button>
 </div>
 
 <script>
-const pricePerKg = 800;
-let quantity = 0;
+const prices={
+  "White Pomfret":800,
+  "Vanjaram":900,
+  "Mud Crab":1200,
+  "Tiger Prawns":1100
+};
+let cart={},total=0;
 
-function changeQty(delta) {
-  quantity += delta;
-  if (quantity < 0) quantity = 0;
-  document.getElementById("qty-White Pomfret").innerText = quantity + " kg";
-  document.getElementById("total").innerText = quantity * pricePerKg;
+function changeQty(item,delta){
+  cart[item]=(cart[item]||0)+delta;
+  if(cart[item]<0)cart[item]=0;
+  document.getElementById("qty-"+item).innerText=cart[item]+" kg";
+  calculateTotal();
 }
 
-function buyNow() {
-  if (quantity === 0) {
-    alert("Please select quantity");
+function calculateTotal(){
+  total=0;
+  for(let item in cart){
+    total+=cart[item]*prices[item];
+  }
+  document.getElementById("total").innerText=total;
+}
+
+function buyNow(){
+  if(total===0){
+    alert("Please select items");
     return;
   }
+  document.getElementById("thankyou").style.display="block";
 
-  document.getElementById("thankyou").style.display = "block";
+  let msg="MVK Sea Foods Order%0A%0A";
+  for(let item in cart){
+    if(cart[item]>0){
+      msg+=item+" - "+cart[item]+" kg × ₹"+prices[item]+" = ₹"+(cart[item]*prices[item])+"%0A";
+    }
+  }
+  msg+="%0ATotal: ₹"+total+"%0ADelivery within 1 hour.";
 
-  let msg =
-    "MVK Sea Foods Order%0A" +
-    "White Pomfret - " + quantity + " kg%0A" +
-    "Total: ₹" + (quantity * pricePerKg) + "%0A" +
-    "Delivery within 1 hour.";
+  window.open("https://wa.me/918688918266?text="+msg,"_blank");
 
-  window.open("https://wa.me/918688918266?text=" + msg, "_blank");
-
-  setTimeout(() => {
-    document.getElementById("thankyou").style.display = "none";
-  }, 20000);
+  setTimeout(()=>{
+    document.getElementById("thankyou").style.display="none";
+  },20000);
 }
 
-/* IMAGE ZOOM */
-function openImage(src) {
-  document.getElementById("modalImg").src = src;
-  document.getElementById("imageModal").style.display = "block";
+function openImage(src){
+  document.getElementById("modalImg").src=src;
+  document.getElementById("imageModal").style.display="block";
 }
-function closeImage() {
-  document.getElementById("imageModal").style.display = "none";
+function closeImage(){
+  document.getElementById("imageModal").style.display="none";
 }
 </script>
 
