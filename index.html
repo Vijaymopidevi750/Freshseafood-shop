@@ -16,180 +16,93 @@
   --card:#ffffff;
   --gold:#d4af37;
 }
-
 *{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Arial;background:var(--bg)}
 
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
-  background:var(--bg);
-  color:#222;
-}
-
-/* HEADER */
 header{
   background:linear-gradient(135deg,#0b2c3d,#123f55);
-  color:#fff;
-  text-align:center;
-  padding:22px 14px 26px;
+  color:#fff;text-align:center;padding:22px 14px
 }
 .logo{
-  width:92px;
-  height:92px;
-  border-radius:50%;
-  border:3px solid var(--gold);
-  background:#fff;
+  width:90px;height:90px;border-radius:50%;
+  border:3px solid var(--gold);background:#fff
 }
-header h1{
-  margin:10px 0 4px;
-  font-size:24px;
-  font-weight:600;
-}
-header p{
-  margin:0;
-  font-size:13px;
-  opacity:.9;
-}
+header h1{margin:10px 0 4px;font-size:24px}
+header p{margin:0;font-size:13px}
 
-/* PAGE */
-.section{
-  padding:14px;
-  padding-bottom:170px;
-}
-
-/* GRID */
+.section{padding:14px;padding-bottom:180px}
 .products{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:14px
 }
 
-/* PRODUCT CARD */
 .product{
   background:var(--card);
   border-radius:16px;
   padding:10px;
   box-shadow:0 6px 16px rgba(0,0,0,.08);
   text-align:center;
-  transition:.2s;
 }
 .product img{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:contain;
-  border-radius:12px;
-  background:#fff;
+  width:100%;aspect-ratio:1/1;object-fit:contain;
+  border-radius:12px;background:#fff
 }
-.product h4{
-  margin:8px 0 2px;
-  font-size:15px;
-}
-.telugu{
-  font-size:12px;
-  color:#666;
-}
-.price{
-  margin:6px 0;
-  font-weight:600;
-}
-
-/* CONTROLS */
-.controls{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  margin-top:6px;
-}
-.controls button{
-  flex:1;
-  height:38px;
-  font-size:20px;
-  border:none;
-  border-radius:10px;
-  background:var(--primary);
-  color:#fff;
-}
-
-/* OUT OF STOCK */
 .product.out{
-  opacity:.45;
-  pointer-events:none;
-  position:relative;
+  opacity:.45;pointer-events:none;position:relative
 }
 .product.out::after{
   content:"OUT OF STOCK";
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
-  color:#b00;
-  background:rgba(255,255,255,.7);
-  border-radius:16px;
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.75);
+  color:#b00000;font-weight:700;border-radius:16px
+}
+.product h4{margin:6px 0 2px}
+.telugu{font-size:12px;color:#666}
+.price{font-weight:600;margin:6px 0}
+
+.controls{
+  display:flex;gap:8px;margin-top:6px
+}
+.controls button{
+  flex:1;height:36px;font-size:20px;
+  border:none;border-radius:10px;
+  background:var(--primary);color:#fff
 }
 
-/* CART */
 .cart{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#fff;
-  box-shadow:0 -4px 20px rgba(0,0,0,.15);
-  padding:14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  position:fixed;bottom:0;left:0;right:0;
+  background:#fff;box-shadow:0 -4px 20px rgba(0,0,0,.15);
+  padding:14px;display:flex;
+  justify-content:space-between;align-items:center
 }
 .cart button{
-  background:var(--accent);
-  color:#fff;
-  border:none;
-  padding:12px 18px;
-  font-size:16px;
-  border-radius:10px;
+  background:var(--accent);color:#fff;
+  border:none;padding:12px 18px;
+  font-size:16px;border-radius:10px
 }
 
 /* ADMIN */
 .admin{
-  display:none;
-  background:#fff;
-  margin:14px;
-  padding:14px;
-  border-radius:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,.1);
+  display:none;background:#fff;margin:14px;
+  padding:14px;border-radius:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.1)
 }
 .admin-row{
   display:grid;
   grid-template-columns:1fr 80px 100px;
-  gap:8px;
-  margin-bottom:8px;
+  gap:8px;margin-bottom:8px
 }
 
 /* THANK YOU */
 .thankyou{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:9999;
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.55);z-index:9999
 }
 .thankyou-box{
-  background:#fff;
-  padding:22px;
-  border-radius:18px;
-  text-align:center;
-  width:86%;
-  max-width:360px;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-}
-.thankyou-box h3{
-  margin-top:0;
-  color:var(--primary);
+  background:#fff;padding:22px;border-radius:18px;
+  text-align:center;width:86%;max-width:360px;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%)
 }
 </style>
 </head>
@@ -226,12 +139,13 @@ header p{
 <p>Order ID: <b id="oid"></b></p>
 <p><b>Delivery within 1 hour</b></p>
 <p class="telugu"><b>మీ ఆర్డర్ 1 గంటలో అందుతుంది</b></p>
-<p style="font-size:13px;color:#555">10 సెకన్లలో WhatsApp కు మారుతుంది…</p>
+<p style="font-size:13px">7 సెకన్లలో WhatsApp కు మారుతుంది…</p>
 </div>
 </div>
 
 <script>
 const ADMIN_PASSWORD="MVK@123";
+const PHONE="918688918266";
 
 const items=[
 {name:"White Pomfret",tel:"వెండి పాంప్‌రెట్",price:800,img:"white-pomfret.jpg"},
@@ -306,17 +220,28 @@ calc();
 function orderNow(){
 let total=document.getElementById("total").innerText;
 if(total==0)return alert("దయచేసి ఉత్పత్తులు ఎంచుకోండి");
+
 orderId="MVK-"+Date.now();
 document.getElementById("oid").innerText=orderId;
 document.getElementById("thankyou").style.display="block";
 
-let msg="Order ID: "+orderId+"%0A";
-for(let i in cart)if(cart[i]>0)msg+=i+" - "+cart[i]+" kg%0A";
-msg+="Total ₹"+total+"%0ADelivery within 1 hour";
+let msg="MVK Sea Foods Order%0AOrder ID: "+orderId+"%0A%0A";
+for(let i in cart){
+if(cart[i]>0){
+msg+=i+" - "+cart[i]+" kg × ₹"+prices[i]+" = ₹"+(cart[i]*prices[i])+"%0A";
+}}
+msg+="%0ATotal: ₹"+total+"%0ADelivery within 1 hour / 1 గంటలో";
 
 setTimeout(()=>{
-window.location.href="https://wa.me/918688918266?text="+msg;
-},10000);
+if(/Android/i.test(navigator.userAgent)){
+window.location.href=
+"intent://send?phone="+PHONE+"&text="+msg+
+"#Intent;scheme=smsto;package=com.whatsapp;end";
+}else{
+window.location.href=
+"https://wa.me/"+PHONE+"?text="+msg;
+}
+},7000);
 }
 
 /* ADMIN ACCESS */
@@ -342,8 +267,7 @@ for(let i in cart){
 if(cart[i]>0){
 pdf.text(`${i} - ${cart[i]} kg × ₹${prices[i]} = ₹${cart[i]*prices[i]}`,20,y);
 y+=10;
-}
-}
+}}
 pdf.text("Total: ₹"+document.getElementById("total").innerText,20,y+10);
 pdf.save(orderId+".pdf");
 }
