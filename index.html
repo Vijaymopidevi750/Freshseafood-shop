@@ -44,13 +44,10 @@ h1 {
 /* PAGE */
 .section {
   padding: 12px;
-  padding-bottom: 110px;
+  padding-bottom: 120px;
 }
 
 /* CATEGORY */
-.category {
-  margin-bottom: 26px;
-}
 .category h2 {
   font-size: 18px;
   margin-bottom: 10px;
@@ -85,10 +82,6 @@ h1 {
 .product h3 {
   font-size: 14px;
   margin: 6px 0 2px;
-}
-.telugu {
-  font-size: 12px;
-  color: #555;
 }
 .price {
   font-size: 14px;
@@ -145,15 +138,12 @@ h1 {
   border-radius: 8px;
 }
 
-/* IMAGE MODAL */
+/* IMAGE POPUP */
 .modal {
   display: none;
   position: fixed;
   z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.9);
 }
 .modal-content {
@@ -181,16 +171,13 @@ h1 {
   display: none;
   position: fixed;
   z-index: 10000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.6);
 }
 .thankyou-box {
   background: #fff;
-  padding: 20px;
-  border-radius: 12px;
+  padding: 22px;
+  border-radius: 14px;
   text-align: center;
   width: 80%;
   max-width: 320px;
@@ -200,7 +187,6 @@ h1 {
   transform: translate(-50%, -50%);
 }
 .thankyou-box h3 {
-  margin-bottom: 10px;
   color: #0b2c3d;
 }
 </style>
@@ -221,7 +207,7 @@ h1 {
 <div class="section">
 
 <div class="category">
-<h2>🐟 Fish / చేపలు</h2>
+<h2>🐟 Fish</h2>
 <div class="products">
 
 <div class="product">
@@ -231,8 +217,8 @@ h1 {
   <div class="controls">
     <div class="qty" id="qty-White Pomfret">0 kg</div>
     <div class="btn-row">
-      <button onclick="changeQty('White Pomfret',-1)">−</button>
-      <button onclick="changeQty('White Pomfret',1)">+</button>
+      <button onclick="changeQty(-1)">−</button>
+      <button onclick="changeQty(1)">+</button>
     </div>
   </div>
 </div>
@@ -254,7 +240,8 @@ h1 {
 <div id="thankyou" class="thankyou">
   <div class="thankyou-box">
     <h3>🙏 Thanks for ordering!</h3>
-    <p>You will receive your items<br><strong>within 30 minutes</strong>.</p>
+    <p>You will receive your items<br><strong>within 1 hour</strong>.</p>
+    <p style="font-size:13px;color:#555;">Redirecting to WhatsApp…</p>
   </div>
 </div>
 
@@ -264,34 +251,38 @@ h1 {
 </div>
 
 <script>
-const prices = { "White Pomfret": 800 };
-let cart = {}, total = 0;
+const pricePerKg = 800;
+let quantity = 0;
 
-function changeQty(item, delta) {
-  cart[item] = (cart[item] || 0) + delta;
-  if (cart[item] < 0) cart[item] = 0;
-  document.getElementById("qty-" + item).innerText = cart[item] + " kg";
-  total = cart[item] * prices[item];
-  document.getElementById("total").innerText = total;
+function changeQty(delta) {
+  quantity += delta;
+  if (quantity < 0) quantity = 0;
+  document.getElementById("qty-White Pomfret").innerText = quantity + " kg";
+  document.getElementById("total").innerText = quantity * pricePerKg;
 }
 
 function buyNow() {
-  if (total === 0) {
-    alert("Please select items");
+  if (quantity === 0) {
+    alert("Please select quantity");
     return;
   }
 
-  let msg = "MVK Sea Foods Order%0AWhite Pomfret - " +
-            cart["White Pomfret"] + " kg%0ATotal ₹" + total;
+  document.getElementById("thankyou").style.display = "block";
+
+  let msg =
+    "MVK Sea Foods Order%0A" +
+    "White Pomfret - " + quantity + " kg%0A" +
+    "Total: ₹" + (quantity * pricePerKg) + "%0A" +
+    "Delivery within 1 hour.";
 
   window.open("https://wa.me/918688918266?text=" + msg, "_blank");
 
-  document.getElementById("thankyou").style.display = "block";
   setTimeout(() => {
     document.getElementById("thankyou").style.display = "none";
-  }, 4000);
+  }, 20000);
 }
 
+/* IMAGE ZOOM */
 function openImage(src) {
   document.getElementById("modalImg").src = src;
   document.getElementById("imageModal").style.display = "block";
