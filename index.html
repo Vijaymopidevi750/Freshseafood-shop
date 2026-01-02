@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fresh Sea Food Shop</title>
+    <title>Fresh Seafood Shop</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,6 +35,13 @@
             text-align: center;
         }
 
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
         button {
             background: #0096c7;
             color: white;
@@ -42,6 +49,7 @@
             padding: 10px;
             border-radius: 5px;
             cursor: pointer;
+            width: 100%;
         }
 
         button:hover {
@@ -59,8 +67,8 @@
 <body>
 
 <header>
-    <h1>🐟 Fresh Sea Food Shop</h1>
-    <p>Daily Fresh Fish Delivery</p>
+    <h1>🐟 Fresh Seafood Shop</h1>
+    <p>Daily Fresh Fish Delivered</p>
 </header>
 
 <div class="container">
@@ -68,29 +76,35 @@
     <h2>Available Fish</h2>
 
     <div class="products">
+
         <div class="product">
+            <img src="pomfret.jpg" alt="Pomfret Fish">
             <h3>Pomfret Fish</h3>
             <p>₹500 / kg</p>
             <button onclick="addToCart('Pomfret Fish', 500)">Add to Cart</button>
         </div>
 
         <div class="product">
+            <img src="rohu.jpg" alt="Rohu Fish">
             <h3>Rohu Fish</h3>
             <p>₹300 / kg</p>
             <button onclick="addToCart('Rohu Fish', 300)">Add to Cart</button>
         </div>
 
         <div class="product">
+            <img src="prawns.jpg" alt="Prawns">
             <h3>Prawns</h3>
             <p>₹600 / kg</p>
             <button onclick="addToCart('Prawns', 600)">Add to Cart</button>
         </div>
 
         <div class="product">
+            <img src="crab.jpg" alt="Crab">
             <h3>Crab</h3>
             <p>₹700 / kg</p>
             <button onclick="addToCart('Crab', 700)">Add to Cart</button>
         </div>
+
     </div>
 
     <div class="cart">
@@ -139,7 +153,7 @@
 
         message += "%0A💰 Total: ₹" + total;
 
-        let phoneNumber = "918688918266"; // <-- PUT YOUR NUMBER HERE
+        let phoneNumber = "918688918266"; // PUT YOUR WHATSAPP NUMBER HERE
 
         window.open(
             "https://wa.me/" + phoneNumber + "?text=" + message,
