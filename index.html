@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>VMK Fresh Sea Food</title>
+<title>MVK Sea Foods</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -15,13 +15,18 @@ header {
   background: #0b2c3d;
   color: #fff;
   text-align: center;
-  padding: 20px;
+  padding: 22px 15px;
 }
-header img {
-  max-width: 130px;
+.logo-text {
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
-h1 { margin: 10px 0 5px; }
-.tagline { font-size: 14px; }
+.tagline {
+  font-size: 14px;
+  margin-top: 6px;
+  opacity: 0.9;
+}
 
 .section { padding: 20px; }
 .category h2 {
@@ -58,9 +63,10 @@ h1 { margin: 10px 0 5px; }
 }
 
 .controls button {
-  padding: 4px 10px;
+  padding: 4px 12px;
   font-size: 18px;
-  margin: 0 5px;
+  margin: 0 6px;
+  cursor: pointer;
 }
 
 .cart {
@@ -79,9 +85,10 @@ h1 { margin: 10px 0 5px; }
   background: #25D366;
   border: none;
   color: #fff;
-  padding: 10px 16px;
+  padding: 10px 18px;
   font-size: 16px;
   border-radius: 5px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -89,8 +96,7 @@ h1 { margin: 10px 0 5px; }
 <body>
 
 <header>
-  <img src="logo.png" alt="VMK Fresh Sea Food">
-  <h1>VMK Fresh Sea Food</h1>
+  <div class="logo-text">MVK Sea Foods</div>
   <div class="tagline">
     Fresh Fish • Live Crab • Premium Prawns – Delivery & Pickup Available
   </div>
@@ -98,11 +104,12 @@ h1 { margin: 10px 0 5px; }
 
 <div class="section">
 
+<!-- FISH -->
 <div class="category">
 <h2>Fish</h2>
 <div class="products">
 
-<div class="product" data-name="White Pomfret">
+<div class="product">
   <img src="images/white-pomfret.jpg">
   <h3>White Pomfret</h3>
   <p>₹800 / kg</p>
@@ -112,7 +119,7 @@ h1 { margin: 10px 0 5px; }
   </div>
 </div>
 
-<div class="product" data-name="Vanjaram">
+<div class="product">
   <img src="images/vanjaram.jpg">
   <h3>Vanjaram</h3>
   <p>₹900 / kg</p>
@@ -125,11 +132,12 @@ h1 { margin: 10px 0 5px; }
 </div>
 </div>
 
+<!-- CRAB -->
 <div class="category">
 <h2>Crab</h2>
 <div class="products">
 
-<div class="product" data-name="Mud Crab">
+<div class="product">
   <img src="images/mud-crab.jpg">
   <h3>Mud Crab</h3>
   <p>₹1200 / kg</p>
@@ -142,11 +150,12 @@ h1 { margin: 10px 0 5px; }
 </div>
 </div>
 
+<!-- PRAWNS -->
 <div class="category">
 <h2>Prawns</h2>
 <div class="products">
 
-<div class="product" data-name="Tiger Prawns">
+<div class="product">
   <img src="images/tiger-prawns.jpg">
   <h3>Tiger Prawns</h3>
   <p>₹1100 / kg</p>
@@ -179,7 +188,7 @@ let total = 0;
 
 function addItem(name) {
   if (!cart[name]) cart[name] = 0;
-  cart[name] += 1;
+  cart[name] += 1; // 1 kg
   total += prices[name];
   updateTotal();
 }
@@ -199,11 +208,11 @@ function updateTotal() {
 
 function buyNow() {
   if (Object.keys(cart).length === 0) {
-    alert("Please add items");
+    alert("Please add items to cart");
     return;
   }
 
-  let msg = "Order from VMK Fresh Sea Food%0A%0A";
+  let msg = "Order from MVK Sea Foods%0A%0A";
 
   for (let item in cart) {
     let qty = cart[item];
