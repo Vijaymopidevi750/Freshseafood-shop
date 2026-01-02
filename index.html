@@ -18,12 +18,9 @@ header{
   background:linear-gradient(135deg,#0b2c3d,#123f55);
   color:#fff;text-align:center;padding:18px
 }
-.logo{
-  width:90px;height:90px;border-radius:50%;
-  background:#fff
-}
-.section{padding:14px;padding-bottom:180px}
+.logo{width:90px;height:90px;border-radius:50%;background:#fff}
 
+.section{padding:14px;padding-bottom:190px}
 .products{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -41,8 +38,13 @@ header{
 .telugu{font-size:12px;color:#666}
 .price{font-weight:600;margin:6px 0}
 
-select{
-  width:100%;padding:8px;border-radius:8px
+select,button{
+  width:100%;padding:10px;
+  border-radius:10px;margin-top:6px
+}
+.add-btn{
+  background:var(--primary);
+  color:#fff;border:none;font-size:15px
 }
 
 .cart{
@@ -55,6 +57,25 @@ select{
   background:var(--green);color:#fff;
   border:none;padding:12px 18px;
   border-radius:10px;font-size:16px
+}
+
+/* POPUP */
+.popup{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.55);z-index:999
+}
+.popup-box{
+  background:#fff;padding:20px;border-radius:16px;
+  width:85%;max-width:360px;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center
+}
+.popup-box button{
+  background:var(--green);
+  color:#fff;border:none;
+  margin-top:10px;
+  font-size:16px
 }
 </style>
 </head>
@@ -74,11 +95,21 @@ select{
 
 <div class="cart">
 <div>Total ₹<span id="total">0</span></div>
-<button onclick="order()">WhatsApp Order</button>
+<button onclick="placeOrder()">Place Order</button>
+</div>
+
+<!-- WHATSAPP POPUP -->
+<div class="popup" id="popup">
+<div class="popup-box">
+<h3>Order Ready ✅</h3>
+<p>Order ID: <b id="orderId"></b></p>
+<p class="telugu">మీ ఆర్డర్ సిద్ధంగా ఉంది</p>
+<button onclick="openWhatsApp()">Open WhatsApp</button>
+</div>
 </div>
 
 <script>
-const PHONE="91XXXXXXXXXX"; // YOUR WHATSAPP NUMBER
+const PHONE="91XXXXXXXXXX"; // 🔴 PUT YOUR REAL WHATSAPP NUMBER
 
 const items=[
 {name:"White Pomfret",tel:"వెండి పాంప్‌రెట్",price:800,img:"white-pomfret.jpg"},
@@ -91,13 +122,11 @@ const items=[
 {name:"Vannamei Prawns",tel:"వనామీ రొయ్యలు",price:850,img:"vannamei-prawns.jpg"}
 ];
 
-// 🔁 SYNC PRICES FROM ADMIN
-const savedPrices = JSON.parse(localStorage.getItem("mvk_prices")) || {};
-items.forEach(i=>{
-  if(savedPrices[i.name]) i.price = savedPrices[i.name];
-});
+// 🔁 LOAD ADMIN-SYNCED PRICES
+const saved=JSON.parse(localStorage.getItem("mvk_prices"))||{};
+items.forEach(i=>{ if(saved[i.name]) i.price=saved[i.name]; });
 
-let cart={},total=0;
+let cart={},total=0,whatsMsg="";
 const p=document.getElementById("products");
 
 items.forEach(i=>{
@@ -108,17 +137,23 @@ p.innerHTML+=`
 <div class="telugu">${i.tel}</div>
 <div class="price">₹${i.price} / kg</div>
 
-<select onchange="selectQty('${i.name}',this.value)">
-  <option value="0">Select Qty</option>
+<select id="qty-${i.name}">
+  <option value="">Select Qty</option>
   <option value="0.25">0.25 kg</option>
   <option value="0.5">0.5 kg</option>
   <option value="1">1 kg</option>
 </select>
+
+<button class="add-btn" onclick="addToCart('${i.name}')">
+Add to Cart
+</button>
 </div>`;
 });
 
-function selectQty(name,kg){
-cart[name]=Number(kg);
+function addToCart(name){
+const qty=document.getElementById("qty-"+name).value;
+if(!qty){ alert("దయచేసి పరిమాణం ఎంచుకోండి"); return; }
+cart[name]=Number(qty);
 calc();
 }
 
@@ -131,23 +166,26 @@ total+=cart[n]*item.price;
 document.getElementById("total").innerText=total.toFixed(0);
 }
 
-function order(){
-if(total===0){alert("దయచేసి పరిమాణం ఎంచుకోండి");return;}
+function placeOrder(){
+if(total===0){ alert("Cart ఖాళీగా ఉంది"); return; }
 
-const orderId="MVK-"+Date.now();
+const oid="MVK-"+Date.now();
+document.getElementById("orderId").innerText=oid;
+document.getElementById("popup").style.display="block";
 
-let msg="MVK Sea Foods Order\n";
-msg+="Order ID: "+orderId+"\n\n";
+whatsMsg=
+"MVK Sea Foods Order\n"+
+"Order ID: "+oid+"\n\n";
 
 for(let n in cart){
-if(cart[n]>0){
-msg+=`${n} - ${cart[n]} kg\n`;
+whatsMsg+=`${n} - ${cart[n]} kg\n`;
 }
+whatsMsg+=`\nTotal: ₹${total}\nDelivery within 1 hour`;
 }
-msg+=`\nTotal: ₹${total}\nDelivery within 1 hour`;
 
+function openWhatsApp(){
 window.location.href=
-"https://wa.me/"+PHONE+"?text="+encodeURIComponent(msg);
+"https://wa.me/"+PHONE+"?text="+encodeURIComponent(whatsMsg);
 }
 </script>
 
