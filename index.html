@@ -18,14 +18,17 @@ header{
   background:linear-gradient(135deg,#0b2c3d,#123f55);
   color:#fff;text-align:center;padding:18px
 }
-.logo{width:90px;height:90px;border-radius:50%;background:#fff}
+.logo{
+  width:90px;height:90px;border-radius:50%;background:#fff
+}
 
-.section{padding:14px;padding-bottom:190px}
+.section{padding:14px;padding-bottom:200px}
 .products{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:14px
 }
+
 .card{
   background:#fff;border-radius:16px;
   padding:10px;text-align:center;
@@ -33,8 +36,10 @@ header{
 }
 .card img{
   width:100%;aspect-ratio:1/1;
-  object-fit:contain;border-radius:12px
+  object-fit:contain;border-radius:12px;
+  cursor:pointer
 }
+
 .telugu{font-size:12px;color:#666}
 .price{font-weight:600;margin:6px 0}
 
@@ -71,11 +76,18 @@ select,button{
   transform:translate(-50%,-50%);
   text-align:center
 }
-.popup-box button{
-  background:var(--green);
-  color:#fff;border:none;
-  margin-top:10px;
-  font-size:16px
+
+/* IMAGE ZOOM */
+.zoom{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.8);z-index:1000
+}
+.zoom img{
+  max-width:90%;
+  max-height:90%;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%)
 }
 </style>
 </head>
@@ -94,22 +106,31 @@ select,button{
 </div>
 
 <div class="cart">
-<div>Total ₹<span id="total">0</span></div>
-<button onclick="placeOrder()">Place Order</button>
+<div>మొత్తం ₹<span id="total">0</span></div>
+<button onclick="placeOrder()">ఆర్డర్ చేయండి</button>
 </div>
 
-<!-- WHATSAPP POPUP -->
+<!-- THANK YOU POPUP -->
 <div class="popup" id="popup">
 <div class="popup-box">
-<h3>Order Ready ✅</h3>
+<h3>🙏 ఆర్డర్‌కు ధన్యవాదాలు!</h3>
 <p>Order ID: <b id="orderId"></b></p>
-<p class="telugu">మీ ఆర్డర్ సిద్ధంగా ఉంది</p>
-<button onclick="openWhatsApp()">Open WhatsApp</button>
+<p class="telugu">మీ ఆర్డర్ 1 గంటలో అందుతుంది</p>
+<p>
+WhatsApp తెరవబడుతుంది 
+<b><span id="countdown">7</span></b> సెకన్లలో
+</p>
+<button onclick="openWhatsApp()">WhatsApp తెరవండి</button>
 </div>
+</div>
+
+<!-- IMAGE ZOOM -->
+<div class="zoom" id="zoom" onclick="closeZoom()">
+<img id="zoomImg">
 </div>
 
 <script>
-const PHONE="91XXXXXXXXXX"; // 🔴 PUT YOUR REAL WHATSAPP NUMBER
+const PHONE="91XXXXXXXXXX"; // 🔴 YOUR WHATSAPP NUMBER
 
 const items=[
 {name:"White Pomfret",tel:"వెండి పాంప్‌రెట్",price:800,img:"white-pomfret.jpg"},
@@ -122,30 +143,26 @@ const items=[
 {name:"Vannamei Prawns",tel:"వనామీ రొయ్యలు",price:850,img:"vannamei-prawns.jpg"}
 ];
 
-// 🔁 LOAD ADMIN-SYNCED PRICES
-const saved=JSON.parse(localStorage.getItem("mvk_prices"))||{};
-items.forEach(i=>{ if(saved[i.name]) i.price=saved[i.name]; });
-
-let cart={},total=0,whatsMsg="";
+let cart={},total=0,finalMsg="";
 const p=document.getElementById("products");
 
 items.forEach(i=>{
 p.innerHTML+=`
 <div class="card">
-<img src="images/${i.img}">
+<img src="images/${i.img}" onclick="zoomImg('images/${i.img}')">
 <h4>${i.name}</h4>
 <div class="telugu">${i.tel}</div>
 <div class="price">₹${i.price} / kg</div>
 
 <select id="qty-${i.name}">
-  <option value="">Select Qty</option>
-  <option value="0.25">0.25 kg</option>
-  <option value="0.5">0.5 kg</option>
-  <option value="1">1 kg</option>
+<option value="">పరిమాణం ఎంచుకోండి</option>
+<option value="0.25">0.25 kg</option>
+<option value="0.5">0.5 kg</option>
+<option value="1">1 kg</option>
 </select>
 
 <button class="add-btn" onclick="addToCart('${i.name}')">
-Add to Cart
+కార్ట్‌లో చేర్చండి
 </button>
 </div>`;
 });
@@ -167,25 +184,49 @@ document.getElementById("total").innerText=total.toFixed(0);
 }
 
 function placeOrder(){
-if(total===0){ alert("Cart ఖాళీగా ఉంది"); return; }
+if(total===0){ alert("కార్ట్ ఖాళీగా ఉంది"); return; }
 
 const oid="MVK-"+Date.now();
 document.getElementById("orderId").innerText=oid;
 document.getElementById("popup").style.display="block";
 
-whatsMsg=
-"MVK Sea Foods Order\n"+
-"Order ID: "+oid+"\n\n";
-
+let lines=[];
+lines.push("MVK Sea Foods Order");
+lines.push("Order ID: "+oid);
+lines.push("");
 for(let n in cart){
-whatsMsg+=`${n} - ${cart[n]} kg\n`;
+lines.push(n+" - "+cart[n]+" kg");
 }
-whatsMsg+=`\nTotal: ₹${total}\nDelivery within 1 hour`;
+lines.push("");
+lines.push("Total: ₹"+total);
+lines.push("Delivery within 1 hour");
+
+finalMsg=lines.join("\n");
+startCountdown();
+}
+
+function startCountdown(){
+let s=7;
+const el=document.getElementById("countdown");
+el.innerText=s;
+const t=setInterval(()=>{
+s--;el.innerText=s;
+if(s<=0)clearInterval(t);
+},1000);
 }
 
 function openWhatsApp(){
 window.location.href=
-"https://wa.me/"+PHONE+"?text="+encodeURIComponent(whatsMsg);
+"https://wa.me/"+PHONE+"?text="+encodeURIComponent(finalMsg);
+}
+
+/* IMAGE ZOOM */
+function zoomImg(src){
+document.getElementById("zoomImg").src=src;
+document.getElementById("zoom").style.display="block";
+}
+function closeZoom(){
+document.getElementById("zoom").style.display="none";
 }
 </script>
 
