@@ -22,7 +22,7 @@ h1{margin:6px 0;font-size:22px}
 .telugu-header{font-size:12px;color:#ffd700;margin-top:4px}
 
 /* PAGE */
-.section{padding:12px;padding-bottom:160px}
+.section{padding:12px;padding-bottom:170px}
 
 /* CATEGORY */
 .category{margin-bottom:26px}
@@ -41,14 +41,17 @@ h1{margin:6px 0;font-size:22px}
   background:#fff;border-radius:14px;padding:10px;
   box-shadow:0 2px 8px rgba(0,0,0,.12);text-align:center
 }
-.product.out{opacity:.45}
+.product.out{
+  opacity:0.45;
+  pointer-events:none;   /* FULL OUT OF STOCK LOCK */
+}
 .product img{
   width:100%;aspect-ratio:1/1;object-fit:contain;
   background:#fff;border-radius:10px;padding:6px
 }
 .price{font-weight:bold;margin:4px 0}
 .telugu{font-size:12px;color:#555}
-.out-label{color:red;font-weight:bold}
+.out-label{color:red;font-weight:bold;margin-top:6px}
 
 /* WEIGHT */
 .weight select{
@@ -111,7 +114,6 @@ h1{margin:6px 0;font-size:22px}
 <h2>🐟 Fish / చేపలు</h2>
 <div class="products">
 
-<!-- White Pomfret -->
 <div class="product">
 <img src="images/white-pomfret.jpg">
 <h3>White Pomfret</h3>
@@ -133,7 +135,6 @@ h1{margin:6px 0;font-size:22px}
 </div>
 </div>
 
-<!-- Black Pomfret -->
 <div class="product">
 <img src="images/black-pomfret.jpg">
 <h3>Black Pomfret</h3>
@@ -155,29 +156,14 @@ h1{margin:6px 0;font-size:22px}
 </div>
 </div>
 
-<!-- Vanjaram -->
-<div class="product">
+<div class="product out">
 <img src="images/vanjaram.jpg">
-<h3>Vanjaram (Seer Fish)</h3>
+<h3>Vanjaram</h3>
 <div class="telugu">వంజరం చేప</div>
 <div class="price">₹900 / kg</div>
-<div class="weight">
-<select onchange="setWeight('Vanjaram',this.value)">
-<option value="1">1 kg</option>
-<option value="0.5">500 గ్రా</option>
-<option value="0.25">250 గ్రా</option>
-</select>
-</div>
-<div class="controls">
-<div class="qty" id="qty-Vanjaram">0 kg</div>
-<div class="btn-row">
-<button onclick="changeQty('Vanjaram',-1)">−</button>
-<button onclick="changeQty('Vanjaram',1)">+</button>
-</div>
-</div>
+<div class="out-label">స్టాక్ లేదు</div>
 </div>
 
-<!-- Tuna -->
 <div class="product">
 <img src="images/tuna.jpg">
 <h3>Tuna Fish</h3>
@@ -228,25 +214,12 @@ h1{margin:6px 0;font-size:22px}
 </div>
 </div>
 
-<div class="product">
+<div class="product out">
 <img src="images/blue-crab.jpg">
 <h3>Blue Crab</h3>
 <div class="telugu">నీలి పీత</div>
 <div class="price">₹900 / kg</div>
-<div class="weight">
-<select onchange="setWeight('Blue Crab',this.value)">
-<option value="1">1 kg</option>
-<option value="0.5">500 గ్రా</option>
-<option value="0.25">250 గ్రా</option>
-</select>
-</div>
-<div class="controls">
-<div class="qty" id="qty-Blue Crab">0 kg</div>
-<div class="btn-row">
-<button onclick="changeQty('Blue Crab',-1)">−</button>
-<button onclick="changeQty('Blue Crab',1)">+</button>
-</div>
-</div>
+<div class="out-label">స్టాక్ లేదు</div>
 </div>
 
 </div>
