@@ -10,13 +10,19 @@
 body{margin:0;font-family:Arial,sans-serif;background:#f2f4f7}
 
 /* HEADER */
-header{background:#0b2c3d;color:#fff;text-align:center;padding:16px}
-.logo{width:100px;height:100px;border-radius:50%;border:3px solid gold;object-fit:contain}
+header{
+  background:#0b2c3d;color:#fff;text-align:center;padding:16px
+}
+.logo{
+  width:100px;height:100px;border-radius:50%;
+  border:3px solid gold;object-fit:contain
+}
 h1{margin:6px 0;font-size:22px}
 .tagline{font-size:13px}
+.telugu-header{font-size:12px;color:#ffd700;margin-top:4px}
 
 /* PAGE */
-.section{padding:12px;padding-bottom:130px}
+.section{padding:12px;padding-bottom:160px}
 
 /* CATEGORY */
 .category{margin-bottom:26px}
@@ -26,9 +32,11 @@ h1{margin:6px 0;font-size:22px}
 }
 
 /* GRID */
-.products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.products{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px
+}
 
-/* CARD */
+/* PRODUCT CARD */
 .product{
   background:#fff;border-radius:14px;padding:10px;
   box-shadow:0 2px 8px rgba(0,0,0,.12);text-align:center
@@ -39,6 +47,7 @@ h1{margin:6px 0;font-size:22px}
   background:#fff;border-radius:10px;padding:6px
 }
 .price{font-weight:bold;margin:4px 0}
+.telugu{font-size:12px;color:#555}
 .out-label{color:red;font-weight:bold}
 
 /* WEIGHT */
@@ -52,9 +61,9 @@ h1{margin:6px 0;font-size:22px}
 .btn-row{display:flex;gap:8px}
 .btn-row button{
   flex:1;height:38px;font-size:20px;
-  border:none;border-radius:8px;background:#0b2c3d;color:#fff
+  border:none;border-radius:8px;
+  background:#0b2c3d;color:#fff
 }
-.btn-row button:disabled{background:#aaa}
 
 /* CART */
 .cart{
@@ -67,6 +76,19 @@ h1{margin:6px 0;font-size:22px}
   background:#25D366;color:#fff;border:none;
   padding:12px 18px;border-radius:8px;font-size:16px
 }
+
+/* THANK YOU */
+.thankyou{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.65);z-index:9999
+}
+.thankyou-box{
+  background:#fff;padding:22px;border-radius:14px;
+  text-align:center;width:80%;max-width:340px;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%)
+}
+.thankyou-box h3{color:#0b2c3d}
 </style>
 </head>
 
@@ -76,24 +98,30 @@ h1{margin:6px 0;font-size:22px}
 <img src="mvk-logo.png" class="logo">
 <h1>MVK Sea Foods</h1>
 <div class="tagline">Fresh Fish • Live Crab • Premium Prawns</div>
+<div class="telugu-header">
+తాజా చేపలు • లైవ్ పీతలు • ప్రీమియం రొయ్యలు<br>
+డెలివరీ & పికప్ అందుబాటులో ఉన్నాయి
+</div>
 </header>
 
 <div class="section">
 
 <!-- FISH -->
 <div class="category">
-<h2>🐟 Fish</h2>
+<h2>🐟 Fish / చేపలు</h2>
 <div class="products">
 
+<!-- White Pomfret -->
 <div class="product">
 <img src="images/white-pomfret.jpg">
 <h3>White Pomfret</h3>
+<div class="telugu">వెండి పాంప్‌రెట్</div>
 <div class="price">₹800 / kg</div>
 <div class="weight">
 <select onchange="setWeight('White Pomfret',this.value)">
 <option value="1">1 kg</option>
-<option value="0.5">500 g</option>
-<option value="0.25">250 g</option>
+<option value="0.5">500 గ్రా</option>
+<option value="0.25">250 గ్రా</option>
 </select>
 </div>
 <div class="controls">
@@ -105,15 +133,17 @@ h1{margin:6px 0;font-size:22px}
 </div>
 </div>
 
+<!-- Black Pomfret -->
 <div class="product">
 <img src="images/black-pomfret.jpg">
 <h3>Black Pomfret</h3>
+<div class="telugu">బ్లాక్ పాంప్‌రెట్</div>
 <div class="price">₹700 / kg</div>
 <div class="weight">
 <select onchange="setWeight('Black Pomfret',this.value)">
 <option value="1">1 kg</option>
-<option value="0.5">500 g</option>
-<option value="0.25">250 g</option>
+<option value="0.5">500 గ్రా</option>
+<option value="0.25">250 గ్రా</option>
 </select>
 </div>
 <div class="controls">
@@ -125,22 +155,39 @@ h1{margin:6px 0;font-size:22px}
 </div>
 </div>
 
-<div class="product out">
+<!-- Vanjaram -->
+<div class="product">
 <img src="images/vanjaram.jpg">
-<h3>Vanjaram</h3>
+<h3>Vanjaram (Seer Fish)</h3>
+<div class="telugu">వంజరం చేప</div>
 <div class="price">₹900 / kg</div>
-<div class="out-label">Out of Stock</div>
+<div class="weight">
+<select onchange="setWeight('Vanjaram',this.value)">
+<option value="1">1 kg</option>
+<option value="0.5">500 గ్రా</option>
+<option value="0.25">250 గ్రా</option>
+</select>
+</div>
+<div class="controls">
+<div class="qty" id="qty-Vanjaram">0 kg</div>
+<div class="btn-row">
+<button onclick="changeQty('Vanjaram',-1)">−</button>
+<button onclick="changeQty('Vanjaram',1)">+</button>
+</div>
+</div>
 </div>
 
+<!-- Tuna -->
 <div class="product">
 <img src="images/tuna.jpg">
 <h3>Tuna Fish</h3>
+<div class="telugu">ట్యూనా చేప</div>
 <div class="price">₹600 / kg</div>
 <div class="weight">
 <select onchange="setWeight('Tuna',this.value)">
 <option value="1">1 kg</option>
-<option value="0.5">500 g</option>
-<option value="0.25">250 g</option>
+<option value="0.5">500 గ్రా</option>
+<option value="0.25">250 గ్రా</option>
 </select>
 </div>
 <div class="controls">
@@ -157,18 +204,19 @@ h1{margin:6px 0;font-size:22px}
 
 <!-- CRAB -->
 <div class="category">
-<h2>🦀 Crab</h2>
+<h2>🦀 Crab / పీతలు</h2>
 <div class="products">
 
 <div class="product">
 <img src="images/mud-crab.jpg">
 <h3>Mud Crab</h3>
+<div class="telugu">మట్టి పీత</div>
 <div class="price">₹1200 / kg</div>
 <div class="weight">
 <select onchange="setWeight('Mud Crab',this.value)">
 <option value="1">1 kg</option>
-<option value="0.5">500 g</option>
-<option value="0.25">250 g</option>
+<option value="0.5">500 గ్రా</option>
+<option value="0.25">250 గ్రా</option>
 </select>
 </div>
 <div class="controls">
@@ -180,11 +228,25 @@ h1{margin:6px 0;font-size:22px}
 </div>
 </div>
 
-<div class="product out">
+<div class="product">
 <img src="images/blue-crab.jpg">
 <h3>Blue Crab</h3>
+<div class="telugu">నీలి పీత</div>
 <div class="price">₹900 / kg</div>
-<div class="out-label">Out of Stock</div>
+<div class="weight">
+<select onchange="setWeight('Blue Crab',this.value)">
+<option value="1">1 kg</option>
+<option value="0.5">500 గ్రా</option>
+<option value="0.25">250 గ్రా</option>
+</select>
+</div>
+<div class="controls">
+<div class="qty" id="qty-Blue Crab">0 kg</div>
+<div class="btn-row">
+<button onclick="changeQty('Blue Crab',-1)">−</button>
+<button onclick="changeQty('Blue Crab',1)">+</button>
+</div>
+</div>
 </div>
 
 </div>
@@ -192,18 +254,19 @@ h1{margin:6px 0;font-size:22px}
 
 <!-- PRAWNS -->
 <div class="category">
-<h2>🦐 Prawns</h2>
+<h2>🦐 Prawns / రొయ్యలు</h2>
 <div class="products">
 
 <div class="product">
 <img src="images/tiger-prawns.jpg">
 <h3>Tiger Prawns</h3>
+<div class="telugu">టైగర్ రొయ్యలు</div>
 <div class="price">₹1100 / kg</div>
 <div class="weight">
 <select onchange="setWeight('Tiger Prawns',this.value)">
 <option value="1">1 kg</option>
-<option value="0.5">500 g</option>
-<option value="0.25">250 g</option>
+<option value="0.5">500 గ్రా</option>
+<option value="0.25">250 గ్రా</option>
 </select>
 </div>
 <div class="controls">
@@ -218,12 +281,13 @@ h1{margin:6px 0;font-size:22px}
 <div class="product">
 <img src="images/vannamei-prawns.jpg">
 <h3>Vannamei Prawns</h3>
+<div class="telugu">వనామీ రొయ్యలు</div>
 <div class="price">₹850 / kg</div>
 <div class="weight">
 <select onchange="setWeight('Vannamei Prawns',this.value)">
 <option value="1">1 kg</option>
-<option value="0.5">500 g</option>
-<option value="0.25">250 g</option>
+<option value="0.5">500 గ్రా</option>
+<option value="0.25">250 గ్రా</option>
 </select>
 </div>
 <div class="controls">
@@ -240,6 +304,19 @@ h1{margin:6px 0;font-size:22px}
 
 </div>
 
+<!-- THANK YOU POPUP -->
+<div id="thankyou" class="thankyou">
+<div class="thankyou-box">
+<h3>🙏 Thanks for ordering!</h3>
+<p>మీ ఆర్డర్‌కు ధన్యవాదాలు 🙏</p>
+<p>You will receive your items<br><strong>within 1 hour</strong></p>
+<p><strong>మీ ఆర్డర్ 1 గంటలో అందుతుంది</strong></p>
+<p style="font-size:13px;color:#555">
+20 సెకన్లలో WhatsApp కు మారుతుంది…
+</p>
+</div>
+</div>
+
 <div class="cart">
 <div>Total ₹<span id="total">0</span></div>
 <button onclick="buyNow()">WhatsApp Order</button>
@@ -249,13 +326,15 @@ h1{margin:6px 0;font-size:22px}
 const prices={
   "White Pomfret":800,
   "Black Pomfret":700,
+  "Vanjaram":900,
   "Tuna":600,
   "Mud Crab":1200,
+  "Blue Crab":900,
   "Tiger Prawns":1100,
   "Vannamei Prawns":850
 };
 
-let cart={},weights={},total=0;
+let cart={},weights={},total=0,whatsappURL="";
 
 function setWeight(item,val){
   weights[item]=parseFloat(val);
@@ -265,7 +344,8 @@ function changeQty(item,dir){
   weights[item]=weights[item]||1;
   cart[item]=(cart[item]||0)+(dir*weights[item]);
   if(cart[item]<0)cart[item]=0;
-  document.getElementById("qty-"+item).innerText=cart[item].toFixed(2)+" kg";
+  document.getElementById("qty-"+item).innerText=
+    cart[item].toFixed(2)+" kg";
   calculateTotal();
 }
 
@@ -279,17 +359,27 @@ function calculateTotal(){
 
 function buyNow(){
   if(total===0){
-    alert("Please select items");
+    alert("దయచేసి వస్తువులు ఎంచుకోండి");
     return;
   }
+
   let msg="MVK Sea Foods Order%0A%0A";
   for(let i in cart){
     if(cart[i]>0){
-      msg+=i+" - "+cart[i].toFixed(2)+" kg × ₹"+prices[i]+" = ₹"+(cart[i]*prices[i]).toFixed(0)+"%0A";
+      msg+=i+" - "+cart[i].toFixed(2)+" kg × ₹"+
+      prices[i]+" = ₹"+(cart[i]*prices[i]).toFixed(0)+"%0A";
     }
   }
-  msg+="%0ATotal: ₹"+total.toFixed(0)+"%0ADelivery within 1 hour";
-  window.open("https://wa.me/918688918266?text="+msg,"_blank");
+  msg+="%0ATotal: ₹"+total.toFixed(0)+
+       "%0ADelivery within 1 hour / 1 గంటలో";
+
+  whatsappURL="https://wa.me/918688918266?text="+msg;
+
+  document.getElementById("thankyou").style.display="block";
+
+  setTimeout(()=>{
+    window.location.href=whatsappURL;
+  },20000);
 }
 </script>
 
