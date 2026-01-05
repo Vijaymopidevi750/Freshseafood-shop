@@ -1,234 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>MVK Sea Foods</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-:root{
-  --primary:#0b2c3d;
-  --accent:#25D366;
-  --bg:#f4f6f8;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont;
-  background:var(--bg);
-}
-
-/* HEADER */
-header{
-  background:linear-gradient(135deg,#0b2c3d,#123f55);
-  color:#fff;
-  padding:16px;
-  text-align:center;
-}
-header img{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  background:#fff;
-}
-header h2{
-  margin:8px 0 2px;
-  font-weight:600;
-}
-header h3{
-  margin:0;
-  font-weight:400;
-  font-size:15px;
-  opacity:.9;
-}
-header p{
-  margin:6px 0 0;
-  font-size:13px;
-  opacity:.85;
-}
-
-/* CATEGORIES */
-.categories{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-top:10px;
-}
-.cat{
-  background:rgba(255,255,255,.15);
-  padding:6px 14px;
-  border-radius:20px;
-  font-size:13px;
-}
-
-/* PRODUCTS */
-.section{
-  padding:14px;
-  padding-bottom:190px;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-}
-.card{
-  background:#fff;
-  border-radius:18px;
-  padding:10px;
-  text-align:center;
-  box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-.card img{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  border-radius:14px;
-}
-.tel{
-  margin-top:8px;
-  font-size:16px;
-  font-weight:600;
-}
-.en{
-  font-size:13px;
-  color:#555;
-}
-.price{
-  font-size:14px;
-  color:#0b2c3d;
-  font-weight:600;
-  margin-top:4px;
-}
-select{
-  width:100%;
-  padding:8px;
-  margin-top:6px;
-  border-radius:8px;
-}
-.add{
-  width:100%;
-  margin-top:6px;
-  background:var(--primary);
-  color:#fff;
-  border:none;
-  padding:10px;
-  border-radius:10px;
-}
-
-/* CART */
-.cart{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#fff;
-  padding:14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 -6px 20px rgba(0,0,0,.15);
-}
-.cart button{
-  background:var(--accent);
-  border:none;
-  color:#fff;
-  font-size:16px;
-  padding:12px 18px;
-  border-radius:12px;
-}
+body{margin:0;font-family:Arial;background:#f4f6f8}
+header{background:#0b2c3d;color:#fff;padding:16px;text-align:center}
+h2,h3{margin:4px 0}
+.section{padding:12px;padding-bottom:160px}
+h3{margin-top:18px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#fff;border-radius:14px;padding:8px;text-align:center}
+.card img{width:100%;border-radius:12px}
+.price{font-weight:bold;color:#0b2c3d}
+select,button{width:100%;padding:8px;margin-top:6px}
+.cart{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px}
+.cart button{background:#25D366;color:#fff;border:none;font-size:16px}
 </style>
 </head>
 
 <body>
 
 <header>
-  <img src="mvk-logo.png" alt="MVK Logo">
-  <h2>MVK Sea Foods</h2>
-  <h3>MVK సీ ఫుడ్స్</h3>
-  <p>Fresh Fish • Prawns • Crab<br>తాజా చేపలు • రొయ్యలు • పీతలు</p>
-
-  <div class="categories">
-    <div class="cat">Fish / చేపలు</div>
-    <div class="cat">Prawns / రొయ్యలు</div>
-    <div class="cat">Crab / పీతలు</div>
-  </div>
+<h2>MVK Sea Foods</h2>
+<h3>MVK సీ ఫుడ్స్</h3>
+<p>Fish / చేపలు • Prawns / రొయ్యలు • Crab / పీతలు</p>
 </header>
 
-<div class="section">
-  <div class="grid" id="grid"></div>
-</div>
+<div class="section" id="content"></div>
 
 <div class="cart">
-  <div>Total ₹<span id="total">0</span></div>
-  <button onclick="order()">Order on WhatsApp</button>
+<div>Total ₹<span id="total">0</span></div>
+<button onclick="order()">Order on WhatsApp</button>
 </div>
 
 <script>
-const PHONE="918688918266"; // ✅ YOUR WHATSAPP NUMBER
-
-const items=[
-  {tel:"తెల్ల చుక్క", en:"Tella Chukka", price:1400, img:"tella-chukka.jpg"},
-  {tel:"చైనీస్", en:"Chinese Fish", price:1500, img:"chinese.jpg"},
-  {tel:"నల్ల చందవ", en:"Nalla Chandava", price:1000, img:"nalla-chandava.jpg"},
-  {tel:"కోనెం", en:"Konem", price:800, img:"konem.jpg"},
-  {tel:"మేమ", en:"Mema", price:380, img:"mema.jpg"},
-  {tel:"పల్ల గోరక", en:"Palla Goraka", price:300, img:"palla-goraka.jpg"},
-  {tel:"కనగంత", en:"Kanagantha", price:270, img:"kanagantha.jpg"},
-  {tel:"కోడెం", en:"Kodem", price:730, img:"kodem.jpg"},
-  {tel:"మేథడు", en:"Methadu", price:250, img:"methadu.jpg"},
-  {tel:"టైగర్ రొయ్య", en:"Tiger Prawns", price:0, img:"tiger-royya.jpg"},
-  {tel:"నారన్ రొయ్య", en:"Naran Prawns", price:650, img:"naran-royya.jpg"},
-  {tel:"బడి పీత", en:"Badi Petha", price:0, img:"badi-petha.jpg"},
-  {tel:"మాచాల పీత", en:"Machala Petha", price:0, img:"machala-petha.jpg"}
-];
-
+const PHONE="918688918266";
 let cart={}, total=0;
-const grid=document.getElementById("grid");
 
-items.forEach(i=>{
-  grid.innerHTML+=`
-    <div class="card">
-      <img src="images/${i.img}">
-      <div class="tel">${i.tel}</div>
-      <div class="en">${i.en}</div>
-      ${i.price>0?`<div class="price">₹${i.price} / kg</div>`:""}
-      <select id="q-${i.en}">
-        <option value="">Select Qty</option>
-        <option value="0.25">0.25 kg</option>
-        <option value="0.5">0.5 kg</option>
-        <option value="1">1 kg</option>
-      </select>
-      <button class="add" onclick="add('${i.en}',${i.price})">
-        Add to Cart
-      </button>
-    </div>
-  `;
+fetch("data/products.json")
+.then(r=>r.json())
+.then(items=>{
+  const c=document.getElementById("content");
+  ["fish","prawn","crab"].forEach(cat=>{
+    c.innerHTML+=`<h3>${cat.toUpperCase()}</h3><div class="grid" id="${cat}"></div>`;
+    items.filter(i=>i.cat===cat && i.stock).forEach(i=>{
+      document.getElementById(cat).innerHTML+=`
+        <div class="card">
+          <img src="images/${i.img}">
+          <div>${i.tel}</div>
+          <div>${i.en}</div>
+          ${i.price>0?`<div class="price">₹${i.price}/kg</div>`:""}
+          <select id="q-${i.id}">
+            <option value="">Qty</option>
+            <option value="0.25">0.25 kg</option>
+            <option value="0.5">0.5 kg</option>
+            <option value="1">1 kg</option>
+          </select>
+          <button onclick="add('${i.id}',${i.price},'${i.en}')">Add</button>
+        </div>`;
+    });
+  });
 });
 
-function add(name,price){
-  const q=document.getElementById("q-"+name).value;
-  if(!q){alert("Please select quantity");return;}
+function add(id,price,name){
+  const q=document.getElementById("q-"+id).value;
+  if(!q){alert("Select quantity");return;}
   cart[name]={qty:q,price:price};
   calc();
 }
-
 function calc(){
   total=0;
-  for(let i in cart){
-    total+=cart[i].qty*cart[i].price;
-  }
-  document.getElementById("total").innerText=total.toFixed(0);
+  for(let i in cart) total+=cart[i].qty*cart[i].price;
+  document.getElementById("total").innerText=total;
 }
-
 function order(){
-  if(total===0){alert("Cart is empty");return;}
+  if(total===0){alert("Cart empty");return;}
   let msg="MVK Sea Foods Order\n\n";
-  for(let i in cart){
-    msg+=`${i} - ${cart[i].qty} kg\n`;
-  }
+  for(let i in cart) msg+=`${i} - ${cart[i].qty} kg\n`;
   msg+=`\nTotal ₹${total}`;
-  window.location.href=
-    "https://wa.me/"+PHONE+"?text="+encodeURIComponent(msg);
+  window.location.href="https://wa.me/"+PHONE+"?text="+encodeURIComponent(msg);
 }
 </script>
 
