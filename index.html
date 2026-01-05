@@ -7,21 +7,51 @@
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f6f8}
-header{background:#0b2c3d;color:#fff;text-align:center;padding:16px}
-header img{width:80px;height:80px;border-radius:50%;background:#fff;padding:4px}
-.section{padding:12px;padding-bottom:200px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:#fff;border-radius:14px;padding:8px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-.card img{width:100%;border-radius:12px}
-.price{font-weight:bold;color:#0b2c3d}
-select,button{width:100%;padding:8px;margin-top:6px}
-button{background:#0b2c3d;color:#fff;border:none}
+header{
+  background:#0b2c3d;
+  color:#fff;
+  text-align:center;
+  padding:18px
+}
+header img{
+  width:90px;height:90px;border-radius:50%;
+  background:#fff;padding:6px;
+  box-shadow:0 4px 12px rgba(0,0,0,.4)
+}
+.section{padding:14px;padding-bottom:220px}
+h3{margin-top:20px;border-bottom:2px solid #0b2c3d;padding-bottom:6px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:10px}
+.card{
+  background:#fff;border-radius:16px;padding:10px;
+  text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.12)
+}
+.card img{
+  width:100%;height:130px;object-fit:cover;
+  border-radius:12px;cursor:pointer
+}
+.price{font-weight:bold;color:#0b2c3d;margin-top:4px}
+.qty-box{
+  display:flex;justify-content:center;align-items:center;
+  gap:12px;margin-top:8px
+}
+.qty-box button{
+  width:34px;height:34px;border-radius:50%;
+  border:none;font-size:20px;
+  background:#0b2c3d;color:#fff
+}
+.out{color:red;font-weight:bold;margin-top:10px}
 .cart{
   position:fixed;bottom:0;left:0;right:0;
   background:#fff;padding:12px;
-  box-shadow:0 -4px 10px rgba(0,0,0,.2)
+  box-shadow:0 -4px 10px rgba(0,0,0,.25)
 }
-.cart button{background:#25D366;font-size:16px}
+.cart button{
+  width:100%;background:#25D366;color:#fff;
+  border:none;padding:12px;font-size:16px;
+  border-radius:8px;margin-top:6px
+}
+
+/* THANK YOU POPUP */
 .popup{
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,.6);z-index:999
@@ -31,14 +61,29 @@ button{background:#0b2c3d;color:#fff;border:none}
   margin:30% auto;padding:20px;
   border-radius:16px;text-align:center
 }
-.out{color:red;font-weight:bold}
+
+/* IMAGE ZOOM POPUP */
+.img-popup{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.9);z-index:2000;
+  justify-content:center;align-items:center
+}
+.img-popup img{
+  max-width:95%;max-height:90%;
+  border-radius:12px
+}
+.img-popup span{
+  position:absolute;top:20px;right:20px;
+  font-size:28px;color:#fff;
+  cursor:pointer
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <img src="mvk-logo.png">
+  <img src="mvk-logo.png" alt="MVK Sea Foods">
   <h2>MVK Sea Foods</h2>
   <p>MVK సీ ఫుడ్స్</p>
   <p>Fish / చేపలు • Prawns / రొయ్యలు • Crab / పీతలు</p>
@@ -47,26 +92,34 @@ button{background:#0b2c3d;color:#fff;border:none}
 <div class="section" id="content"></div>
 
 <div class="cart">
-  <div>Total ₹<span id="total">0</span></div>
+  <div><b>Total ₹<span id="total">0</span></b></div>
   <button onclick="placeOrder()">Order on WhatsApp</button>
 </div>
 
+<!-- THANK YOU POPUP -->
 <div class="popup" id="popup">
   <div class="popup-box">
     <h3>🙏 Thank you for ordering</h3>
     <p>Order ID: <b id="oid"></b></p>
     <p><b>Your order will be delivered in 1 hour</b></p>
-    <button onclick="openWhatsApp()" style="background:#25D366">
+    <button onclick="openWhatsApp()" style="background:#25D366;color:#fff;padding:10px;border:none;border-radius:8px">
       Open WhatsApp
     </button>
   </div>
 </div>
 
+<!-- IMAGE ZOOM POPUP -->
+<div class="img-popup" id="imgPopup">
+  <span onclick="closeImg()">✕</span>
+  <img id="zoomImg">
+</div>
+
 <script>
 const PHONE="918688918266";
-let cart={}, total=0, finalMsg="", orderId="";
+let cart={}, total=0, orderMsg="", orderId="";
 
-fetch("data/products.json")
+/* LOAD PRODUCTS */
+fetch("./data/products.json")
 .then(r=>r.json())
 .then(items=>{
   const c=document.getElementById("content");
@@ -75,20 +128,18 @@ fetch("data/products.json")
     items.filter(i=>i.category===cat).forEach(i=>{
       document.getElementById(cat).innerHTML+=`
         <div class="card">
-          <img src="images/${i.image}">
+          <img src="images/${i.image}" onclick="zoomImage('images/${i.image}')">
           <div>${i.tel}</div>
           <div>${i.en}</div>
+          ${i.price>0?`<div class="price">₹${i.price}/kg</div>`:""}
           ${
             i.stock
             ? `
-              ${i.price>0?`<div class="price">₹${i.price}/kg</div>`:""}
-              <select id="q-${i.id}">
-                <option value="">Qty</option>
-                <option value="0.25">0.25 kg</option>
-                <option value="0.5">0.5 kg</option>
-                <option value="1">1 kg</option>
-              </select>
-              <button onclick="add('${i.id}',${i.price},'${i.en}')">Add</button>
+              <div class="qty-box">
+                <button onclick="changeQty('${i.id}',-0.25,${i.price},'${i.en}')">−</button>
+                <div id="qty-${i.id}" style="min-width:60px;font-weight:bold">0 kg</div>
+                <button onclick="changeQty('${i.id}',0.25,${i.price},'${i.en}')">+</button>
+              </div>
             `
             : `<div class="out">Out of Stock<br>స్టాక్ లేదు</div>`
           }
@@ -97,34 +148,50 @@ fetch("data/products.json")
   });
 });
 
-function add(id,price,name){
-  const q=document.getElementById("q-"+id).value;
-  if(!q){alert("Select quantity");return;}
-  cart[name]={qty:q,price:price};
+/* IMAGE ZOOM */
+function zoomImage(src){
+  document.getElementById("zoomImg").src = src;
+  document.getElementById("imgPopup").style.display="flex";
+}
+function closeImg(){
+  document.getElementById("imgPopup").style.display="none";
+}
+
+/* QUANTITY */
+function changeQty(id, delta, price, name){
+  if(!cart[name]) cart[name]={qty:0,price:price};
+  cart[name].qty+=delta;
+  if(cart[name].qty<0) cart[name].qty=0;
+  document.getElementById("qty-"+id).innerText=cart[name].qty.toFixed(2)+" kg";
+  if(cart[name].qty===0) delete cart[name];
   calc();
 }
 
+/* TOTAL */
 function calc(){
   total=0;
   for(let i in cart) total+=cart[i].qty*cart[i].price;
-  document.getElementById("total").innerText=total;
+  document.getElementById("total").innerText=total.toFixed(0);
 }
 
+/* ORDER */
 function placeOrder(){
-  if(total===0){alert("Cart empty");return;}
+  if(total===0){alert("Please add items");return;}
   orderId="MVK-"+Date.now();
   document.getElementById("oid").innerText=orderId;
 
-  finalMsg="MVK Sea Foods Order\nOrder ID: "+orderId+"\n\n";
+  orderMsg="MVK Sea Foods Order\nOrder ID: "+orderId+"\n\n";
   for(let i in cart){
-    finalMsg+=`${i} - ${cart[i].qty} kg - ₹${cart[i].qty*cart[i].price}\n`;
+    orderMsg+=`${i} - ${cart[i].qty} kg - ₹${(cart[i].qty*cart[i].price).toFixed(0)}\n`;
   }
-  finalMsg+=`\nTotal Amount: ₹${total}\nDelivery within 1 hour`;
+  orderMsg+=`\nTotal Amount: ₹${total}\nDelivery within 1 hour`;
+
   document.getElementById("popup").style.display="block";
 }
 
+/* WHATSAPP */
 function openWhatsApp(){
-  window.location.href="https://wa.me/"+PHONE+"?text="+encodeURIComponent(finalMsg);
+  window.location.href="https://wa.me/"+PHONE+"?text="+encodeURIComponent(orderMsg);
 }
 </script>
 
