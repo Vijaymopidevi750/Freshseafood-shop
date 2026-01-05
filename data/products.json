@@ -1,17 +1,17 @@
 [
-  { "id":"tella_chukka", "tel":"తెల్ల చుక్క", "en":"Tella Chukka", "price":1400, "cat":"fish", "stock":true, "img":"tella-chukka.jpg" },
-  { "id":"chinese", "tel":"చైనీస్", "en":"Chinese Fish", "price":1500, "cat":"fish", "stock":true, "img":"chinese.jpg" },
-  { "id":"nalla_chandava", "tel":"నల్ల చందవ", "en":"Nalla Chandava", "price":1000, "cat":"fish", "stock":true, "img":"nalla-chandava.jpg" },
-  { "id":"konem", "tel":"కోనెం", "en":"Konem", "price":800, "cat":"fish", "stock":true, "img":"konem.jpg" },
-  { "id":"mema", "tel":"మేమ", "en":"Mema", "price":380, "cat":"fish", "stock":true, "img":"mema.jpg" },
-  { "id":"palla_goraka", "tel":"పల్ల గోరక", "en":"Palla Goraka", "price":300, "cat":"fish", "stock":true, "img":"palla-goraka.jpg" },
-  { "id":"kanagantha", "tel":"కనగంత", "en":"Kanagantha", "price":270, "cat":"fish", "stock":true, "img":"kanagantha.jpg" },
-  { "id":"kodem", "tel":"కోడెం", "en":"Kodem", "price":730, "cat":"fish", "stock":true, "img":"kodem.jpg" },
-  { "id":"methadu", "tel":"మేథడు", "en":"Methadu", "price":250, "cat":"fish", "stock":true, "img":"methadu.jpg" },
+  { "id":"tella", "tel":"తెల్ల చుక్క", "en":"Tella Chukka", "price":1400, "category":"Fish", "stock":true, "image":"tella-chukka.jpg" },
+  { "id":"chinese", "tel":"చైనీస్", "en":"Chinese Fish", "price":1500, "category":"Fish", "stock":true, "image":"chinese.jpg" },
+  { "id":"nalla", "tel":"నల్ల చందవ", "en":"Nalla Chandava", "price":1000, "category":"Fish", "stock":true, "image":"nalla-chandava.jpg" },
+  { "id":"konem", "tel":"కోనెం", "en":"Konem", "price":800, "category":"Fish", "stock":true, "image":"konem.jpg" },
+  { "id":"mema", "tel":"మేమ", "en":"Mema", "price":380, "category":"Fish", "stock":true, "image":"mema.jpg" },
+  { "id":"palla", "tel":"పల్ల గోరక", "en":"Palla Goraka", "price":300, "category":"Fish", "stock":true, "image":"palla-goraka.jpg" },
+  { "id":"kanagantha", "tel":"కనగంత", "en":"Kanagantha", "price":270, "category":"Fish", "stock":true, "image":"kanagantha.jpg" },
+  { "id":"kodem", "tel":"కోడెం", "en":"Kodem", "price":730, "category":"Fish", "stock":true, "image":"kodem.jpg" },
+  { "id":"methadu", "tel":"మేథడు", "en":"Methadu", "price":250, "category":"Fish", "stock":true, "image":"methadu.jpg" },
 
-  { "id":"tiger_royya", "tel":"టైగర్ రొయ్య", "en":"Tiger Prawns", "price":0, "cat":"prawn", "stock":true, "img":"tiger-royya.jpg" },
-  { "id":"naran_royya", "tel":"నారన్ రొయ్య", "en":"Naran Prawns", "price":650, "cat":"prawn", "stock":true, "img":"naran-royya.jpg" },
+  { "id":"tiger", "tel":"టైగర్ రొయ్య", "en":"Tiger Prawns", "price":0, "category":"Prawns", "stock":true, "image":"tiger-royya.jpg" },
+  { "id":"naran", "tel":"నారన్ రొయ్య", "en":"Naran Prawns", "price":650, "category":"Prawns", "stock":true, "image":"naran-royya.jpg" },
 
-  { "id":"badi_petha", "tel":"బడి పీత", "en":"Badi Petha", "price":0, "cat":"crab", "stock":true, "img":"badi-petha.jpg" },
-  { "id":"machala_petha", "tel":"మాచాల పీత", "en":"Machala Petha", "price":0, "cat":"crab", "stock":true, "img":"machala-petha.jpg" }
+  { "id":"badi", "tel":"బడి పీత", "en":"Badi Petha", "price":0, "category":"Crab", "stock":true, "image":"badi-petha.jpg" },
+  { "id":"machala", "tel":"మాచాల పీత", "en":"Machala Petha", "price":0, "category":"Crab", "stock":true, "image":"machala-petha.jpg" }
 ]
